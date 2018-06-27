@@ -1,0 +1,5 @@
+<!--pages/uploadfile/uploadfile.wxml-->
+<button bindtap='uploadImage'>上传图片</button>
+<button bindtap='downloadImage'>下载图片</button>
+<image src="{{imageSrc}}"></image>
+<button bindtap='getOpenId'>获取openid</button>

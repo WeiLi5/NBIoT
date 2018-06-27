@@ -1,0 +1,50 @@
+<!--logs.wxml-->
+<view class='page'>
+
+  <!--view class='page__hd'>
+
+    <view class='section__ctn'>
+      <image style='width:150px;height:100px;' src='https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=1715234370,114180695&fm=27&gp=0.jpg'></image>
+    </view>
+
+  </view-->
+
+  <view class="page__hd">
+    <view class="page__title">账号密码登陆</view>
+  </view>
+
+
+  <view class='page__bd'>
+
+
+    <view class="weui-cell weui-cell_input ">
+
+      <view class="weui-cell__bd">
+        <input class="weui-input" placeholder="请输入账号" bindinput="inputUserName" value="{{username}}" name='username'/>
+      </view>
+
+    </view>
+
+    <view class="weui-cell weui-cell_input">
+
+      <view class="weui-cell__bd">
+        <input class="weui-input" type='password' placeholder="请输入密码" bindinput='inputPassword'/>
+      </view>
+
+    </view>
+
+    <view class="page__bd page__bd_spacing">
+
+
+      <view class="weui-cell__bd">
+        <view class='blue' bindtap='logbyphone'>用手机登陆</view>
+      </view>
+
+      <button class="weui-btn" type="primary" bindtap='login'>登陆</button>
+      <button class="weui-btn" type="default" bindtap='usersignup'>注册</button>
+      <button class="weui-btn" type="default">忘记密码</button>
+
+
+    </view>
+  </view>
+</view>

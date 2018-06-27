@@ -1,0 +1,23 @@
+{
+  "pages":[
+    "pages/wxmsg/wxmsg",
+    "pages/mainlog/mainlog",
+    "pages/signup/signup",
+    "pages/usercentre/usercentre",
+    "pages/phonelog/phonelog",
+    "pages/index/index",
+    "pages/mappage/mappage",
+    "pages/changepassword/changepassword",
+    "pages/addcover/addcover",
+    "pages/coverinfo/coverinfo",
+    
+    "pages/uploadfile/uploadfile"
+    
+  ],
+  "window":{
+    "backgroundTextStyle":"light",
+    "navigationBarBackgroundColor": "#fff",
+    "navigationBarTitleText": "智联安井盖",
+    "navigationBarTextStyle":"black"
+  }
+}

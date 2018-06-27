@@ -1,0 +1,44 @@
+<!--pages/signup/signup.wxml-->
+
+
+<view class='page'>
+
+
+
+  <view class="page__hd">
+    <view class="page__title">注册账号</view>
+  </view>
+
+
+  <view class='page__bd'>
+
+
+    <view class="weui-cell weui-cell_input ">
+      <view class="weui-cell__bd">
+        <input class="weui-input" placeholder="请输入账号" bindinput="inputUserName" value="{{username}}" name='username' />
+      </view>
+    </view>
+
+
+    <view class="weui-cell weui-cell_input">
+      <view class="weui-cell__bd">
+        <input class="weui-input" type='password' placeholder="请输入密码" bindinput='inputPassword' />
+      </view>
+    </view>
+
+
+    <view class="weui-cell weui-cell_input">
+      <view class="weui-cell__bd">
+        <input class="weui-input" type='password' placeholder="请再次输入密码" bindinput='inputPassword' />
+      </view>
+    </view>
+
+
+    <view class="page__bd page__bd_spacing">
+      <button class="weui-btn" type="primary" bindtap='login'>确定</button>
+    </view>
+
+
+
+  </view>
+</view>
