@@ -26,10 +26,10 @@ Page({
   //用户名密码存到全局变量
   //TODO：在此处进行用户名密码比对
   login: function() {
-    console.log('用户名： ' + this.data.username + '密码' + this.data.password)
+    //console.log('用户名： ' + this.data.username + '密码' + this.data.password)
     app.globalData.username = this.data.username
     app.globalData.password = this.data.password
-    console.log(app.globalData.username)
+    //console.log(app.globalData.username)
 
     wx.request({
       url: 'http://112.74.62.193/appservice', //仅为示例，并非真实的接口地址
@@ -43,9 +43,10 @@ Page({
       },
       method: "POST",
       success: function(res) {
-        console.log(res.data)
+        //console.log(res.data)
         if (res.data.ERRORCODE == 0) {
           app.globalData.sessionID = res.data.RESULT.SESSIONID
+          console.log((app.globalData.coverList).length)
           wx.redirectTo({
             url: '../mappage/mappage',
           })

@@ -40,20 +40,43 @@ Page({
         "DEVICEINFO": {
           "ACCESSTECHNOLOGY": "NB",
           "VENDOR": "CT",
-          "NODEID": app.globalData.barcodeResult,
+          "NODEID": app.globalData.barcodeResult, //这里是SN，之后需替换成扫码结果
           "DESCRIPTION": "a test node",
           "DEVICETYPE": "BASICSERVICE"
         }
       },
+      method: "POST",
       header: {
         'content-type': 'application/json' // 默认值
       },
       success: function(res) {
-        console.log(res)
-        console.log(app.globalData.sessionID)
-        console.log(app.globalData.barcodeResult)
+        //检查ERRORCODE
+        if (res.data.ERRORCODE == 0) {
+          console.log(res)
+          console.log(app.globalData.sessionID)
+          //console.log(app.globalData.barcodeResult)
+
+          //同时把此设备添加到coverList中
+          //设备对应一个object，如{SN:123456789,lat:20,lng:30}
+          //正式版本此部分需上传到服务器
+          app.globalData.coverList[(app.globalData.coverList).length] = {
+            SN: app.globalData.barcodeResult,
+            lat: app.globalData.latitude,
+            lng: app.globalData.longitude,
+            address: app.globalData.address
+          }
+          wx.redirectTo({
+            url: '../mappage/mappage',
+          })
+        }
+        else{
+          console.log("设备识别或添加失败")
+        }
       }
+
     })
+
+    console.log(app.globalData.coverList)
   },
   onLoad: function(options) {
     var that = this;

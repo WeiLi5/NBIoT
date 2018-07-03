@@ -36,9 +36,15 @@ App({
     cityInfo: {}, //城市信息 
     barcodeResult: '',
     username: '',
-    password:'',
-    sessionID:'',
-    coverList:''
+    password: '',
+    sessionID: '',
+    thisSN: '',
+    coverList: [{
+      SN: 12345678,
+      lat: 39.960686,
+      lng: 116.306174,
+      address: '葫芦岛'
+    }]
 
   }
 })

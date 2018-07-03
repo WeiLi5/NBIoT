@@ -80,6 +80,7 @@ Page({
       success: function(res) {
 
         //测试数据，从服务器获取
+        /*
         var datas = [{
           sn: "1ASDFBNMJK",
           status: "0",
@@ -109,29 +110,32 @@ Page({
           width: 50,
           height: 50
         }]
+        */
+
+        var datas = app.globalData.coverList
 
         var marker = [];
         for (var i in datas) {
 
-          if (datas[i].status == "0") {
+          if (true) {
             marker[i] = {
-              id: i,
-              longitude: datas[i].longitude,
-              latitude: datas[i].latitude,
+              id: datas[i].SN,
+              longitude: datas[i].lng,
+              latitude: datas[i].lat,
               width: 50,
               height: 50,
               iconPath: "../../images/map-marker-icon.png",
-              title: datas[i].sn
+              title: datas[i].SN
             }
           } else {
             marker[i] = {
               id: i,
-              longitude: datas[i].longitude,
-              latitude: datas[i].latitude,
+              longitude: datas[i].lng,
+              latitude: datas[i].lat,
               width: 50,
               height: 50,
               iconPath: "../../images/map-marker-icon-normal.png",
-              title: datas[i].sn
+              title: datas[i].SN
             }
 
           }
@@ -147,7 +151,7 @@ Page({
         })
 
         //console.log(this.data.markers)
-        console.log(this.data.marker)
+        //console.log(this.data.marker)
 
       }
 
@@ -162,7 +166,13 @@ Page({
 
   //点击merkers
   markertap(e) {
+    //console.log(e.markerId)
+    app.globalData.thisSN = e.markerId
     console.log(e.markerId)
+    console.log(app.globalData.thisSN)
+
+
+
     var that = this
 
     wx.showActionSheet({

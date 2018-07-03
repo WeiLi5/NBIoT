@@ -7,28 +7,76 @@ Page({
    * 页面的初始数据
    */
   data: {
-    username:''
+    username: ''
+
+  },
+  /*
+    {
+      “SESSIONID”:”XXXXXXXX”
+      “METHOD”:”DELDEVICE”,
+    “DEVICEID”:”********”
+  }
+  */
+
+  deleteDevice: function() {
+    var deviceID ='';
+
+    //获取设备deviceID
+    wx.request({
+      url: 'http://112.74.62.193/appservice', 
+      data: {
+        "METHOD": "GETDEVICELIST",
+        "SESSIONID": app.globalData.sessionID
+
+      },
+      method: "POST",
+      header: {
+        'content-type': 'application/json' // 默认值
+      },
+      success: function(res) {
+        deviceID = res.data.RESULT[6].DEVICEID
+
+        //删除设备api
+        wx.request({
+          url: 'http://112.74.62.193/appservice', 
+          data: {
+            "SESSIONID": app.globalData.sessionID,
+            "METHOD":"DELDEVICE",
+            "DEVICEID":deviceID
+          },
+          header: {
+            'content-type': 'application/json' // 默认值
+          },
+          method:"POST",
+          success: function (res) {
+            console.log(res)
+          }
+        })
+
+
+      }
+    })
 
   },
 
-  changeUser:function(){
+  changeUser: function() {
     wx.redirectTo({
       url: '../mainlog/mainlog',
     })
 
   },
 
-  goChangePassword:function(){
+  goChangePassword: function() {
     wx.navigateTo({
       url: '../changepassword/changepassword',
     })
-    
+
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad: function (options) {
+  onLoad: function(options) {
     this.setData({
       username: app.globalData.username
     })
@@ -37,49 +85,49 @@ Page({
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
-  onReady: function () {
-  
+  onReady: function() {
+
   },
 
   /**
    * 生命周期函数--监听页面显示
    */
-  onShow: function () {
-  
+  onShow: function() {
+
   },
 
   /**
    * 生命周期函数--监听页面隐藏
    */
-  onHide: function () {
-  
+  onHide: function() {
+
   },
 
   /**
    * 生命周期函数--监听页面卸载
    */
-  onUnload: function () {
-  
+  onUnload: function() {
+
   },
 
   /**
    * 页面相关事件处理函数--监听用户下拉动作
    */
-  onPullDownRefresh: function () {
-  
+  onPullDownRefresh: function() {
+
   },
 
   /**
    * 页面上拉触底事件的处理函数
    */
-  onReachBottom: function () {
-  
+  onReachBottom: function() {
+
   },
 
   /**
    * 用户点击右上角分享
    */
-  onShareAppMessage: function () {
-  
+  onShareAppMessage: function() {
+
   }
 })

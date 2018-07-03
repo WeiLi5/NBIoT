@@ -1,5 +1,5 @@
 {
-  "pages":[
+  "pages": [
     "pages/mainlog/mainlog",
     "pages/signup/signup",
     "pages/usercentre/usercentre",
@@ -11,12 +11,11 @@
     "pages/coverinfo/coverinfo",
     "pages/uploadfile/uploadfile",
     "pages/wxmsg/wxmsg"
-    
   ],
-  "window":{
-    "backgroundTextStyle":"light",
+  "window": {
+    "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#fff",
     "navigationBarTitleText": "智联安井盖",
-    "navigationBarTextStyle":"black"
+    "navigationBarTextStyle": "black"
   }
 }

@@ -29,12 +29,6 @@ Page({
         //console.log(res)
         //console.log(res.data.RESULT.SESSIONID)
 
-        /*
-        that.setData({
-          sessionID : res.data.RESULT.SESSIONID,
-          imageSrc : "xxxxxxxx"
-        })
-        */
         sessionID = res.data.RESULT.SESSIONID
         //console.log(res.data.RESULT.SESSIONID)
         console.log(sessionID)
