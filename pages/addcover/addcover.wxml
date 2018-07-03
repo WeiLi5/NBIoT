@@ -20,12 +20,12 @@
         <view class="weui-cell__ft">{{latitude}}</view>
       </view>
 
-            <view class="weui-cell">
+      <view class="weui-cell">
         <view class="weui-cell__bd">经度</view>
         <view class="weui-cell__ft">{{longitude}}</view>
       </view>
 
-            <view class="weui-cell">
+      <view class="weui-cell">
         <view class="weui-cell__bd">地址</view>
         <view class="weui-cell__ft">{{address}}</view>
       </view>
@@ -33,8 +33,8 @@
     </view>
   </view>
 
-      <view class="page__bd page__bd_spacing">
-      <button class="weui-btn" type="primary">确认添加</button>
+    <view class="page__bd page__bd_spacing">
+      <button class="weui-btn" type="primary" bindtap='addConfirm'>确认添加</button>
     </view>
 
 </view>

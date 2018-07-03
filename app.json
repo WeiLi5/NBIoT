@@ -1,6 +1,5 @@
 {
   "pages":[
-    "pages/wxmsg/wxmsg",
     "pages/mainlog/mainlog",
     "pages/signup/signup",
     "pages/usercentre/usercentre",
@@ -10,8 +9,8 @@
     "pages/changepassword/changepassword",
     "pages/addcover/addcover",
     "pages/coverinfo/coverinfo",
-    
-    "pages/uploadfile/uploadfile"
+    "pages/uploadfile/uploadfile",
+    "pages/wxmsg/wxmsg"
     
   ],
   "window":{

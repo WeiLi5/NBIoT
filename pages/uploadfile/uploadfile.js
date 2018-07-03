@@ -8,66 +8,146 @@ Page({
     imageSrc: ""
   },
 
-  uploadImage: function() {
-    var that = this;
-    wx.chooseImage({
-      count: 1, // 默认9
-      sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
-      sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有
-      success: function(res) {
-        // 返回选定照片的本地文件路径列表，tempFilePath可以作为img标签的src属性显示图片
-        var tempFilePaths = res.tempFilePaths
 
-        //显示图片
-        /*
-        that.setData({
-          imageSrc:tempFilePaths
-        })
-        console.log(res)
-        */
-
-        //上传图片
-        wx.uploadFile({
-          url: 'https://wli5.applinzi.com/upload_image.php',
-          filePath: tempFilePaths[0],
-          name: 'imageUp',
-          success: function(res) {
-            var data = res.data;
-            console.log(data);
-          },
-          fail: function() {
-            console.log("fail image")
-          }
-
-        })
-      }
-    })
-
-  },
 
   downloadImage: function() {
     var that = this;
-    wx.downloadFile({
-      url: 'https://wli5.applinzi.com/kiana.png',
+    var sessionID = "";
+    var deviceID = "";
+    wx.request({
+      url: 'http://112.74.62.193/appservice', //仅为示例，并非真实的接口地址
+      data: {
+        "ACCOUNT": "MLPROJ-LHJ",
+        "METHOD": "LOGIN",
+        "PASSWORD": "MLink*1212"
+      },
+      header: {
+        'content-type': 'application/json' // 默认值
+      },
+      method:"POST",
       success: function(res) {
-        that.setData({
-          imageSrc: res.tempFilePath
-        })
+        //console.log(res)
+        //console.log(res.data.RESULT.SESSIONID)
 
+        /*
+        that.setData({
+          sessionID : res.data.RESULT.SESSIONID,
+          imageSrc : "xxxxxxxx"
+        })
+        */
+        sessionID = res.data.RESULT.SESSIONID
+        //console.log(res.data.RESULT.SESSIONID)
+        console.log(sessionID)
+
+        //****************** */
+        wx.request({
+          url: 'http://112.74.62.193/appservice', //仅为示例，并非真实的接口地址
+          data: {
+            "METHOD": "GETDEVICELIST",
+            "SESSIONID": sessionID
+
+          },
+          method: "POST",
+          header: {
+            'content-type': 'application/json' // 默认值
+          },
+          success: function (res) {
+            console.log("--------------------")
+            //console.log(res)
+            console.log("--------------------")
+            console.log(res.data.RESULT)
+            console.log(res.data.RESULT[0].DEVICEID)
+            console.log("--------------------")
+            deviceID = res.data.RESULT[0].DEVICEID
+
+            /**************** */
+
+            wx.request({
+              url: 'http://112.74.62.193/appservice', //仅为示例，并非真实的接口地址
+              data: {
+                "SESSIONID":sessionID,
+                "METHOD": "PULL",
+                "DEVICEID": deviceID,
+                "TIMEOUT": 0
+              },
+              method: "POST",
+              header: {
+                'content-type': 'application/json' // 默认值
+              },
+              success: function (res) {
+                console.log("用deviceID拿到的")
+                console.log(res)
+              }
+            })
+
+          }
+        })
+      
+      }
+    })
+    /*
+    sessionID "CDE82575A276DEFF1419898F80221AF9FFA5BD27DEDE4252507EC7410FBA326285C3879767A915DCF1D9D0B81C1D9AA39F3D78F7CE41795865C09BDD3939667A"
+
+
+    "DEVICEID":"025f6c86-8235-4bd1-abfd-b6e2b827fced"
+
+
+    
+    */
+
+/*
+    wx.request({
+      url: 'http://112.74.62.193/appservice', //仅为示例，并非真实的接口地址
+      data: {
+        "METHOD": "GETDEVICELIST",
+        "SESSIONID": sessionID
+      
+      },
+      method: "POST",
+      header: {
+        'content-type': 'application/json' // 默认值
+      },
+      success: function (res) {
+        console.log("--------------------")
+        //console.log(res)
+        console.log("--------------------")
+        console.log(res)
+        console.log("--------------------")
 
       }
-
-
     })
 
+    */
+/*
+    wx.request({
+      url: 'http://112.74.62.193/appservice', //仅为示例，并非真实的接口地址
+      data: {
+        "SESSIONID": "CDE82575A276DEFF1419898F80221AF9FFA5BD27DEDE4252507EC7410FBA326285C3879767A915DCF1D9D0B81C1D9AA39F3D78F7CE41795865C09BDD3939667A",
+        "METHOD":"PULL",
+        "DEVICEID":"025f6c86-8235-4bd1-abfd-b6e2b827fced",
+      "TIMEOUT":0
+      },
+  method: "POST",
+      header: {
+        'content-type': 'application/json' // 默认值
+      },
+      success: function (res) {
+        //console.log(res.data)
+      }
+    })
+
+    */
+
+
   },
+
 
   getOpenId: function() {
 
     wx.login({
       success: function(res) {
         wx.request({
-          url: 'https://wli5.applinzi.com/code.php', 
+          url: 'https://wli5.applinzi.com/code.php',
           data: {
             code: res.code
           },
@@ -75,7 +155,7 @@ Page({
             'content-type': 'application/json' // 默认值
           },
           success: function(res) {
-            console.log(res.data)
+            //console.log(res.data)
           }
         })
       }

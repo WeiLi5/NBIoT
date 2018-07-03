@@ -79,32 +79,75 @@ Page({
       type: 'wgs84', // 默认为 wgs84 返回 gps 坐标，gcj02 返回可用于 wx.openLocation 的坐标
       success: function(res) {
 
+        //测试数据，从服务器获取
+        var datas = [{
+          sn: "1ASDFBNMJK",
+          status: "0",
+          latitude: 39.965166,
+          longitude: 116.32184,
+          width: 50,
+          height: 50
+        }, {
+          sn: "2RTYUIFGHJ",
+          status: "1",
+          latitude: 39.960686,
+          longitude: 116.306174,
+          width: 50,
+          height: 50
+        }, {
+          sn: "3CVBNRTYU",
+          status: "1",
+          latitude: 39.956705,
+          longitude: 116.327158,
+          width: 50,
+          height: 50
+        }, {
+          sn: "4RTYUICVBN",
+          status: "1",
+          latitude: 39.95958,
+          longitude: 116.293382,
+          width: 50,
+          height: 50
+        }]
+
+        var marker = [];
+        for (var i in datas) {
+
+          if (datas[i].status == "0") {
+            marker[i] = {
+              id: i,
+              longitude: datas[i].longitude,
+              latitude: datas[i].latitude,
+              width: 50,
+              height: 50,
+              iconPath: "../../images/map-marker-icon.png",
+              title: datas[i].sn
+            }
+          } else {
+            marker[i] = {
+              id: i,
+              longitude: datas[i].longitude,
+              latitude: datas[i].latitude,
+              width: 50,
+              height: 50,
+              iconPath: "../../images/map-marker-icon-normal.png",
+              title: datas[i].sn
+            }
+
+          }
+        }
+
 
 
         _this.setData({
           latitude: res.latitude,
           longitude: res.longitude,
-          markers: [{
-            id: "1",
-            latitude: res.latitude,
-            longitude: res.longitude,
-            width: 50,
-            height: 50,
-            iconPath: "../../images/map-marker-icon.png",
-            title: "Series Number"
-
-          }, {
-            id: "2",
-            latitude: 23,
-            longitude: 45,
-            width: 50,
-            height: 50,
-            iconPath: "../../images/map-marker-icon-normal.png",
-            title: "Series Number"
-
-          }]
+          markers: marker
 
         })
+
+        //console.log(this.data.markers)
+        console.log(this.data.marker)
 
       }
 
@@ -131,7 +174,7 @@ Page({
             url: '../coverinfo/coverinfo',
           })
         }
-        if (res.tapIndex == 1){
+        if (res.tapIndex == 1) {
           console.log(e)
         }
       },
@@ -158,8 +201,6 @@ Page({
           wx.navigateTo({
             url: '../addcover/addcover',
           })
-
-
         }
       })
     }

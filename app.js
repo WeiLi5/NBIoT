@@ -35,7 +35,10 @@ App({
     address: '', //地址  
     cityInfo: {}, //城市信息 
     barcodeResult: '',
-    username: ''
+    username: '',
+    password:'',
+    sessionID:'',
+    coverList:''
 
   }
 })

@@ -1,0 +1,2 @@
+<button bindtap='passMark'>传递markers</button>
+<view></view>
