@@ -51,12 +51,18 @@ Page({
 
             //设备删除成功
             //在此删除coverList中的对应设备
-            //TODO：正式版本不应存在本地
+            //TODO：正式版本不应存在本地缓存
+
             for (var j in app.globalData.coverList){
               if (app.globalData.thisSN == app.globalData.coverList[j].SN){
                 app.globalData.coverList.splice(j,1)
               }
             }
+
+            wx.setStorage({
+              key: 'coverInfo',
+              data: app.globalData.coverList
+            })
 
 
             wx.redirectTo({

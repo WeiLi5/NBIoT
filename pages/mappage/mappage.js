@@ -44,6 +44,14 @@ Page({
 
     })
 
+    //把设备信息从缓存中取出，存到全局变量中
+    wx.getStorage({
+      key: 'coverInfo',
+      success: function (res) {
+        app.globalData.coverList = res.data
+      }
+    })
+
     wx.getSystemInfo({
       success: function(res) {
         //设置map高度，根据当前设备宽高满屏显示
@@ -79,38 +87,7 @@ Page({
       type: 'wgs84', // 默认为 wgs84 返回 gps 坐标，gcj02 返回可用于 wx.openLocation 的坐标
       success: function(res) {
 
-        //测试数据，从服务器获取
-        /*
-        var datas = [{
-          sn: "1ASDFBNMJK",
-          status: "0",
-          latitude: 39.965166,
-          longitude: 116.32184,
-          width: 50,
-          height: 50
-        }, {
-          sn: "2RTYUIFGHJ",
-          status: "1",
-          latitude: 39.960686,
-          longitude: 116.306174,
-          width: 50,
-          height: 50
-        }, {
-          sn: "3CVBNRTYU",
-          status: "1",
-          latitude: 39.956705,
-          longitude: 116.327158,
-          width: 50,
-          height: 50
-        }, {
-          sn: "4RTYUICVBN",
-          status: "1",
-          latitude: 39.95958,
-          longitude: 116.293382,
-          width: 50,
-          height: 50
-        }]
-        */
+
 
         var datas = app.globalData.coverList
 

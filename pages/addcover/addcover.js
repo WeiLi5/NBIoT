@@ -65,6 +65,12 @@ Page({
             lng: app.globalData.longitude,
             address: app.globalData.address
           }
+          //将数据存储在本地缓存中
+          wx.setStorage({
+            key: 'coverInfo',
+            data: app.globalData.coverList
+          })
+
           wx.redirectTo({
             url: '../mappage/mappage',
           })
