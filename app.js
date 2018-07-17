@@ -1,33 +1,22 @@
 //app.js
+var app = getApp();
 App({
   //获取用户openID
   openid: null,
 
-  onLaunch: function() {
-    var that = this;
-    wx.login({
-      success: function(res) {
-        console.log(res);
-        wx.request({
-          url: 'https://wli5.applinzi.com/code.php',
-          data: {
-            code: res.code
-          },
-          header: {
-            'content-type': 'application/json' // 默认值
-          },
-          success: function(res) {
-            var data = res.data;
-            var openid = data.openid;
-            that.openid = openid;
-            //console.log(res.data);
-          }
-        })
-      }
-    })
 
+  onLaunch: function() {
   },
+
+  onShow: function () {
+    // Do something when show.
+  },
+  onHide: function () {
+      // Do something when hide.
+  },
+
   globalData: {
+    oper:'',
     userInfo: null,
     markers: [],
     longitude: '', //经度  
@@ -35,16 +24,25 @@ App({
     address: '', //地址  
     cityInfo: {}, //城市信息 
     barcodeResult: '',
-    username: '',
-    password: '',
-    sessionID: '',
+    city:'',
+    sessionId: '',
+    marker:[],
     thisSN: '',
-    coverList: [{
-      SN: 12345678,
-      lat: 39.960686,
-      lng: 116.306174,
-      address: '葫芦岛'
-    }]
+    warningSignal: '',
+    code: '',
+    //deviceData
+    temperature: '',
+    gravityStatus: '',
+    gravityAngle: '',
+    waterWarning: '',
+    battery: '',
+    version: '',
+    signalStrength: '',
+    reportTime: '',
+    imsi: '',
+    errorCode: '',
+    createTime: '',
+    city: ''
 
   }
 })

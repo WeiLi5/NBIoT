@@ -2,136 +2,109 @@
 var app = getApp();
 
 Page({
+  getPhoneNumber: function (e) {
+    var errMsg = e.detail.errMsg;
+    var iv 
 
-  /**
-   * 页面的初始数据
-   */
-  data: {
-    username: '',
-    password: ''
-  },
+    app.globalData.iv = e.detail.iv
+    app.globalData.encryptedData = e.detail.encryptedData
 
-  //读取用户账号密码
-  inputUserName: function(e) {
-    this.setData({
-      username: e.detail.value
-    });
-  },
-  inputPassword: function(e) {
-    this.setData({
-      password: e.detail.value
-    });
-  },
 
-  //用户名密码存到全局变量
-  //TODO：在此处进行用户名密码比对
-  login: function() {
-    //console.log('用户名： ' + this.data.username + '密码' + this.data.password)
-    app.globalData.username = this.data.username
-    app.globalData.password = this.data.password
-    //console.log(app.globalData.username)
-
-    wx.request({
-      url: 'http://112.74.62.193/appservice', //仅为示例，并非真实的接口地址
-      data: {
-        "ACCOUNT": "MLPROJ-LHJ",
-        "METHOD": "LOGIN",
-        "PASSWORD": "MLink*1212"
-      },
-      header: {
-        'content-type': 'application/json' // 默认值
-      },
-      method: "POST",
-      success: function(res) {
-        //console.log(res.data)
-        if (res.data.ERRORCODE == 0) {
-          app.globalData.sessionID = res.data.RESULT.SESSIONID
-          console.log((app.globalData.coverList).length)
-          wx.redirectTo({
-            url: '../mappage/mappage',
-          })
+    if (e.detail.errMsg == 'getPhoneNumber:fail user deny') {
+      wx.showModal({
+        title: '提示',
+        showCancel: false,
+        content: '未授权',
+        success: function (res) {
+          //用户未同意
         }
-        else{
-          console.log('获取sessionID失败')
+      })
+    } else {
+      wx.showModal({
+        title: '提示',
+        showCancel: false,
+        content: '同意授权',
+        success: function (res) {
+          wx.login({
+            success: function (res) {
+              if (res.code) {
+                //登陆接口
+                wx.request({
+                  url: 'https://jinggai.woxinshangdi.com/user/getSessionKeyByCode.htm',
+                  data: {
+                    code: res.code
+                  },
+                  header: {
+                    'content-type': 'application/x-www-form-urlencoded'
+                  },
+                  method: "POST",
+                  success: function (res) {
+                    console.log(res.data)
+                    //已获取号码
+                    if (res.data.retCode == 0) {
+                      var sessionId = res.data.sessionId;
+                      wx.setStorage({
+                        key: "sessionId",
+                        data: sessionId
+                      })
+
+                      wx.redirectTo({
+                        url: '../mappage/mappage',
+                      })
+                    }
+                    else if (res.data.retCode == 1000){
+                      //获取手机号码
+                      wx.request({
+                        url: 'https://jinggai.woxinshangdi.com/user/decodePhoneInfo.htm', 
+                        data: {
+                          tempSessionId: res.data.tempSessionId,
+                          encryptedData: app.globalData.encryptedData,
+                          iv: app.globalData.iv
+                        },
+                        header: {
+                          'content-type': 'application/x-www-form-urlencoded'
+                        },
+                        method: "POST",
+                        success: function (res) {
+                          console.log(res.data)
+                          if (res.data.retCode == 0) {
+                            var sessionId = res.data.sessionId;
+                            wx.setStorage({
+                              key: "sessionId",
+                              data: sessionId
+                            })
+
+                            wx.redirectTo({
+                              url: '../mappage/mappage',
+                            })
+                          }
+                          else{
+                            wx.showModal({
+                              title: '登录失败',
+                              content: res.data.retMsg,
+                            });
+                          }
+                        }
+                      })
+
+                    } 
+                    else {
+                      wx.showModal({
+                        title: '登录失败',
+                        content: res.data.retMsg,
+                      });
+                    }
+                  }
+                })
+
+              } else {
+                console.log('获取用户登录态失败！' + res.errMsg)
+              }
+            }
+          });
+
         }
-      },
-      fail: function(res) {
-        console.log('登陆出现问题')
-      }
-    })
-
-
-
-
-  },
-  usersignup: function() {
-    wx.navigateTo({
-      url: '../signup/signup',
-    })
-
-  },
-
-  //跳转手机登录页面
-  logbyphone: function() {
-    wx.redirectTo({
-      url: '../phonelog/phonelog',
-    })
-  },
-
-
-  /**
-   * 生命周期函数--监听页面加载
-   */
-  onLoad: function(options) {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady: function() {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow: function() {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide: function() {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload: function() {
-
-  },
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh: function() {
-
-  },
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom: function() {
-
-  },
-
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage: function() {
-
+      })
+    }
   }
 })

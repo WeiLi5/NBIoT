@@ -9,7 +9,9 @@ Page({
   data: {
     Height: 0,
     scale: 13,
-    markers: [],
+    //testP:"xxxxxxx",
+    markers:[{xxx:"dsdsd"}],
+
     controls: [{
         id: 1,
         iconPath: '../../images/icon_scan.png',
@@ -20,7 +22,18 @@ Page({
           height: 50
         },
         clickable: true
+    }, {
+      id: 'showmarker',
+      iconPath: '../../images/icon_show_marker.png',
+      position: {
+        left: 140,
+        top: 20,
+        width: 50,
+        height: 50
       },
+      clickable: true
+    },
+
       {
         id: 'usercentre',
         iconPath: '../../images/icon_usercenter.png',
@@ -37,20 +50,14 @@ Page({
 
   },
 
-  onLoad: function() {
+  onShow: function() {
     var _this = this;
     var BMap = new bmap.BMapWX({
-      ak: 'MF1xKjxAmcFcD2ERWLElpshMTk0Da4hc'
+      ak: 'VNuApmSavnK7xuxIxxAgq1gp8FIpANxQ'
 
     })
 
-    //把设备信息从缓存中取出，存到全局变量中
-    wx.getStorage({
-      key: 'coverInfo',
-      success: function (res) {
-        app.globalData.coverList = res.data
-      }
-    })
+
 
     wx.getSystemInfo({
       success: function(res) {
@@ -65,14 +72,11 @@ Page({
     })
 
     var success = function(data) {
-      console.log(data);
-      wxMarkerData = data.wxMarkerData;
-
-      app.globalData.latitude = wxMarkerData[0].latitude,
-        app.globalData.longitude = wxMarkerData[0].longitude,
-        app.globalData.address = wxMarkerData[0].address
+      app.globalData.latitude = data.wxMarkerData[0].latitude
+      app.globalData.longitude = data.wxMarkerData[0].longitude
+      app.globalData.address = data.wxMarkerData[0].address
+      app.globalData.city = data.originalData.result.addressComponent.city
     }
-
 
     var fail = function(data) {
       console.log(data);
@@ -84,56 +88,77 @@ Page({
 
 
     wx.getLocation({
-      type: 'wgs84', // 默认为 wgs84 返回 gps 坐标，gcj02 返回可用于 wx.openLocation 的坐标
+      type: 'wgs84', 
       success: function(res) {
 
+        
 
 
-        var datas = app.globalData.coverList
+        //从服务器取到设备信息
+        //var datas = app.globalData.coverList
+        wx.getStorage({
+          key: 'sessionId',
+          success: function (res) {
+            app.globalData.sessionId = res.data
 
-        var marker = [];
-        for (var i in datas) {
+            wx.request({
+              url: 'https://jinggai.woxinshangdi.com/device/deviceList.htm',
+              data: {
+                sessionId: res.data
+          },
+              header: {
+                'content-type': 'application/json' // 默认值
+              },
+              success: function (res) {
+                console.log("获取设备列表成功")
+                var datas = res.data.deviceList;
+                console.log(datas)
+                console.log("+++++++++++++++++++++")
+                console.log(res.data)
+                //初始化清空全局marker list
+                //主要为了设备全部删光的情况
+                app.globalData.marker = []
 
-          if (true) {
-            marker[i] = {
-              id: datas[i].SN,
-              longitude: datas[i].lng,
-              latitude: datas[i].lat,
-              width: 50,
-              height: 50,
-              iconPath: "../../images/map-marker-icon.png",
-              title: datas[i].SN
-            }
-          } else {
-            marker[i] = {
-              id: i,
-              longitude: datas[i].lng,
-              latitude: datas[i].lat,
-              width: 50,
-              height: 50,
-              iconPath: "../../images/map-marker-icon-normal.png",
-              title: datas[i].SN
-            }
 
+                for (var i in datas) {
+
+                  if (true) {
+                    app.globalData.marker[i] = {
+                      id: datas[i].sn,
+                      longitude: datas[i].longitude,
+                      latitude: datas[i].latitude,
+                      width: 50,
+                      height: 50,
+                      iconPath: "../../images/map-marker-icon.png",
+                      title: datas[i].sn
+                    }
+                  } else {
+                    app.globalData.marker[i] = {
+                      id: datas[i].sn,
+                      longitude: datas[i].longitude,
+                      latitude: datas[i].latitude,
+                      width: 50,
+                      height: 50,
+                      iconPath: "../../images/map-marker-icon-normal.png",
+                      title: datas[i].sn
+                    }
+
+                  }
+                }
+              }
+            })
           }
-        }
-
+        })
 
 
         _this.setData({
           latitude: res.latitude,
           longitude: res.longitude,
-          markers: marker
-
+          
         })
-
-        //console.log(this.data.markers)
-        //console.log(this.data.marker)
-
       }
 
     })
-
 
   },
 
@@ -146,14 +171,13 @@ Page({
     //console.log(e.markerId)
     app.globalData.thisSN = e.markerId
     console.log(e.markerId)
-    console.log(app.globalData.thisSN)
 
 
 
     var that = this
 
     wx.showActionSheet({
-      itemList: ["查看该井盖信息", "警报归位"],
+      itemList: ["查看该井盖信息", "开始导航","警报归位"],
       success: function(res) {
         console.log(res.tapIndex)
         if (res.tapIndex == 0) {
@@ -162,7 +186,28 @@ Page({
           })
         }
         if (res.tapIndex == 1) {
-          console.log(e)
+          //获取所点击的井盖地理位置信息
+          //获取单个设备信息
+          wx.request({
+            url: 'https://jinggai.woxinshangdi.com/device/queryDevice.htm',
+            data: {
+              "sn": app.globalData.thisSN
+            },
+            method: "GET",
+            header: {
+              'content-type': 'application/json'
+            },
+            success: function (res) {
+              wx.openLocation({
+                latitude: Number(res.data.device.latitude),
+                longitude: Number(res.data.device.longitude),
+                scale: 18,
+                name: app.globalData.thisSN,
+                address: res.data.device.address
+              })
+            }
+          })
+
         }
       },
       fail: function(res) {
@@ -179,7 +224,22 @@ Page({
       wx.navigateTo({
         url: '../usercentre/usercentre',
       })
-    } else {
+    } 
+    if (e.controlId === 'showmarker'){
+      var _this = this;
+      console.log("111111111111111")
+      console.log(this.data.markers)
+      console.log(app.globalData.marker)
+      _this.setData({
+        markers: app.globalData.marker
+      })
+      console.log('2222222222222222')
+      console.log(this.data.markers)
+      console.log(app.globalData.marker)
+
+
+    }
+    if(e.controlId === 1) {
       wx.scanCode({
         onlyFromCamera: true,
         scanType: 'barCode',

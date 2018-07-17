@@ -15,6 +15,11 @@
       </view>
 
       <view class="weui-cell">
+        <view class="weui-cell__bd">地址</view>
+        <view class="weui-cell__ft">{{address}}</view>
+      </view>
+
+      <view class="weui-cell">
         <view class="weui-cell__bd">纬度</view>
         <view class="weui-cell__ft">{{latitude}}</view>
       </view>
@@ -25,8 +30,68 @@
       </view>
 
       <view class="weui-cell">
-        <view class="weui-cell__bd">地址</view>
-        <view class="weui-cell__ft">{{address}}</view>
+        <view class="weui-cell__bd">所属城市</view>
+        <view class="weui-cell__ft">{{city}}</view>
+      </view>
+
+      <view class="weui-cell">
+        <view class="weui-cell__bd">管理员账号</view>
+        <view class="weui-cell__ft">{{operPhone}}</view>
+      </view>
+
+      <view class="weui-cell">
+        <view class="weui-cell__bd">温度</view>
+        <view class="weui-cell__ft">{{temperature}}</view>
+      </view>
+
+      <view class="weui-cell">
+        <view class="weui-cell__bd">重力角度</view>
+        <view class="weui-cell__ft">{{gravityAngle}}</view>
+      </view>
+
+      <view class="weui-cell">
+        <view class="weui-cell__bd">电量</view>
+        <view class="weui-cell__ft">{{battery}}</view>
+      </view>
+
+      <view class="weui-cell">
+        <view class="weui-cell__bd">设备内核版本</view>
+        <view class="weui-cell__ft">{{version}}</view>
+      </view>
+
+      <view class="weui-cell">
+        <view class="weui-cell__bd">信号强度</view>
+        <view class="weui-cell__ft">{{signalStrength}}</view>
+      </view>
+
+      <view class="weui-cell">
+        <view class="weui-cell__bd">添加时间</view>
+        <view class="weui-cell__ft">{{createTime}}</view>
+      </view>
+
+      <view class="weui-cell">
+        <view class="weui-cell__bd">IMSI</view>
+        <view class="weui-cell__ft">{{imsi}}</view>
+      </view>
+
+      <view class="weui-cell">
+        <view class="weui-cell__bd">上报时间</view>
+        <view class="weui-cell__ft">{{reportTime}}</view>
+      </view>
+
+      <view class="weui-cell">
+        <view class="weui-cell__bd">水浸状态</view>
+        <view class="weui-cell__ft">{{waterStatus}}</view>
+      </view>
+
+      <view class="weui-cell">
+        <view class="weui-cell__bd">水浸报警</view>
+        <view class="weui-cell__ft">{{waterWarning}}</view>
+      </view>
+
+      <view class="weui-cell">
+        <view class="weui-cell__bd">重力状态</view>
+        <view class="weui-cell__ft">{{gravityStatus}}</view>
       </view>
 
 
@@ -37,7 +102,7 @@
   <view class="page__bd page__bd_spacing">
     <button class="weui-btn" type="warn" bindtap='deleteCover'>删除此设备</button>
 
-    
+
   </view>
 
 

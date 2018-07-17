@@ -1,7 +1,5 @@
 {
   "pages": [
-        "pages/uploadfile/uploadfile",
-        
     "pages/mainlog/mainlog",
     "pages/signup/signup",
     "pages/usercentre/usercentre",
@@ -9,14 +7,16 @@
     "pages/index/index",
     "pages/mappage/mappage",
     "pages/changepassword/changepassword",
-    "pages/addcover/addcover",
     "pages/coverinfo/coverinfo",
+    "pages/uploadfile/uploadfile",
+        "pages/addcover/addcover",
+        
     "pages/wxmsg/wxmsg"
   ],
   "window": {
     "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#fff",
-    "navigationBarTitleText": "智联安井盖",
+    "navigationBarTitleText": "NB-IoT智能井盖",
     "navigationBarTextStyle": "black"
   }
 }

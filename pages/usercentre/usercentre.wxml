@@ -32,10 +32,6 @@
 
     <button class="weui-btn" type="default" bindtap='changeUser'>切换账号</button>
     
-     <button class="weui-btn" type="default" bindtap='deleteDevice'>删除设备测试</button>
-
-
-
   </view>
 
 </view>

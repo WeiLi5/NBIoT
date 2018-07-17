@@ -7,4 +7,5 @@
 <button bindtap='delData'>删除数据</button>
 <button bindtap='analyData'>解析测试</button>
 <button bindtap='analySubData'>分段解析测试</button>
+<button bindtap='setTest'>setTest</button>
 

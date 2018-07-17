@@ -4,87 +4,68 @@ var wxMarkerData = []; //定位成功回调对象
 var app = getApp();
 Page({
   data: {
-    ak: "MF1xKjxAmcFcD2ERWLElpshMTk0Da4hc", //填写申请到的ak  
+    ak: "VNuApmSavnK7xuxIxxAgq1gp8FIpANxQ", //填写申请到的ak  
     markers: [],
     longitude: '', //经度  
     latitude: '', //纬度  
     address: '', //地址  
-    sn: '',
-    cityInfo: {} //城市信息  
+    sn: '',//sn
+    coverNo:'',
+    city:''//城市
   },
-  /* 
-  
-  REQ
-{
-“SESSIONID”:”XXXXXXXX”
-“METHOD”:”ADDDEVICE”,
-“DEVICEINFO”:
-{
-“ACCESSTECHNOLOGY”:”NB”,
-“VENDOR”:”CT”,
 
-2017-8-3 5
-“NODEID”:”8612345678901234”,
-"DESCRIPTION":"a test node",
-“DEVICETYPE”:”BASICSERVICE”
-}
-}
-  */
+  //获取用户输入的井盖号码
+  bindCoverNo:function(e){
+    this.setData({
+      coverNo:e.detail.value
+    })
+
+  },
+
+
 
   addConfirm: function() {
+   
     wx.request({
-      url: 'http://112.74.62.193/appservice', //仅为示例，并非真实的接口地址
+      url: 'https://jinggai.woxinshangdi.com/device/addDevice.htm', 
       data: {
-        "SESSIONID": app.globalData.sessionID,
-        "METHOD": "ADDDEVICE",
-        "DEVICEINFO": {
-          "ACCESSTECHNOLOGY": "NB",
-          "VENDOR": "CT",
-          "NODEID": app.globalData.barcodeResult, //这里是SN，之后需替换成扫码结果
-          "DESCRIPTION": "a test node",
-          "DEVICETYPE": "BASICSERVICE"
-        }
+        "sessionId": app.globalData.sessionId,
+        "sn": 'LHJ800210000006',
+        "latitude": app.globalData.latitude,
+        "longitude": app.globalData.longitude,
+        "address":app.globalData.address,
+        "city":app.globalData.city,
+        "description":"测试井盖"
+        
       },
       method: "POST",
       header: {
-        'content-type': 'application/json' // 默认值
+        'content-type': 'application/x-www-form-urlencoded' // 默认值
       },
       success: function(res) {
-        //检查ERRORCODE
-        if (res.data.ERRORCODE == 0) {
-          console.log(res)
-          console.log(app.globalData.sessionID)
-          //console.log(app.globalData.barcodeResult)
-
-          //同时把此设备添加到coverList中
-          //设备对应一个object，如{SN:123456789,lat:20,lng:30}
-          //正式版本此部分需上传到服务器
-          app.globalData.coverList[(app.globalData.coverList).length] = {
-            SN: app.globalData.barcodeResult,
-            lat: app.globalData.latitude,
-            lng: app.globalData.longitude,
-            address: app.globalData.address
-          }
-          //将数据存储在本地缓存中
-          wx.setStorage({
-            key: 'coverInfo',
-            data: app.globalData.coverList
-          })
-
-          wx.redirectTo({
-            url: '../mappage/mappage',
-          })
+        if (res.data.retCode == 0){
+        console.log("添加设备成功")
+        //添加设备
+        wx.reLaunch({
+          url: '../mappage/mappage',
+        })
         }
         else{
-          console.log("设备识别或添加失败")
+          wx.showModal({
+            title: '添加失败',
+            content: res.data.retMsg,
+          })
         }
-      }
 
+      }
     })
 
-    console.log(app.globalData.coverList)
   },
-  onLoad: function(options) {
+  onShow: function(options) {
+    console.log(app.globalData.barcodeResult)
+    console.log(app.globalData.latitude)
+    console.log(app.globalData.longitude)
+    console.log(app.globalData.address)
     var that = this;
     /* 获取定位地理位置 */
     // 新建bmap对象   
@@ -104,7 +85,8 @@ Page({
         latitude: app.globalData.latitude,
         longitude: app.globalData.longitude,
         address: app.globalData.address,
-        sn: app.globalData.barcodeResult
+        sn: app.globalData.barcodeResult,
+        city: app.globalData.city
 
       });
 

@@ -26,15 +26,29 @@
       </view>
 
       <view class="weui-cell">
+        <view class="weui-cell__bd">所属城市</view>
+        <view class="weui-cell__ft">{{city}}</view>
+      </view>
+
+      <view class="weui-cell">
         <view class="weui-cell__bd">地址</view>
         <view class="weui-cell__ft">{{address}}</view>
+      </view>
+
+      <view class="weui-cell weui-cell_input">
+        <view class="weui-cell__hd">
+          <view class="weui-label">井盖号码</view>
+        </view>
+        <view class="weui-cell__bd">
+          <input class="weui-input" placeholder="可输入井盖号码（选填）" bindinput='bindCoverNo'/>
+        </view>
       </view>
 
     </view>
   </view>
 
-    <view class="page__bd page__bd_spacing">
-      <button class="weui-btn" type="primary" bindtap='addConfirm'>确认添加</button>
-    </view>
+  <view class="page__bd page__bd_spacing">
+    <button class="weui-btn" type="primary" bindtap='addConfirm'>确认添加</button>
+  </view>
 
 </view>

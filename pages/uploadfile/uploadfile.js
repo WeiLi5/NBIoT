@@ -8,7 +8,16 @@ Page({
    * 页面的初始数据
    */
   data: {
-    imageSrc: ""
+    imageSrc: "",
+    markers:[]
+  },
+
+  setTest: function(){
+    var that = this;
+    var marker = [{a:'123',b:'456'},{a:'789',b:'098765'}]
+    that.setData({markers:marker}) 
+    console.log(this.data.markers)
+
   },
 
   analyData: function() {
@@ -144,14 +153,14 @@ Page({
     var mSignalStrength = parseInt(splitSignal.slice(6, 8).join(''), 16)
     console.log(mSignalStrength)
 
-//sn解析
+    //sn解析
 
     var sn = '0D01014C4847383030313130303030313530';
     var splitSn = sn.split('');
     var hexSn = splitSn.slice(6, 36).join('');
-   	var mSn = hexCharCodeToStr(hexSn);
+    var mSn = hexCharCodeToStr(hexSn);
     console.log(mSn)
-    
+
     //imsi解析
 
     var imsi = '120101343630313131313136383531343031';
@@ -160,35 +169,51 @@ Page({
     var mImsi = hexCharCodeToStr(hexImsi);
     console.log(mImsi)
 
-    function hexCharCodeToStr(hexCharCodeStr) {
-      　　var trimedStr = hexCharCodeStr.trim();
-      　　var rawStr =
-        　　trimedStr.substr(0, 2).toLowerCase() === "0x"
-          　　?
-          　　trimedStr.substr(2)
-          　　:
-          　　trimedStr;
-      　　var len = rawStr.length;
-      　　if (len % 2 !== 0) {
-        　　　　alert("Illegal Format ASCII Code!");
-        　　　　return "";
-      　　}
-      　　var curCharCode;
-      　　var resultStr = [];
-      　　for (var i = 0; i < len; i = i + 2) {
-        　　　　curCharCode = parseInt(rawStr.substr(i, 2), 16); // ASCII Code Value
-        　　　　resultStr.push(String.fromCharCode(curCharCode));
-      　　}
-      　　return resultStr.join("");
+    function hexCharCodeToStr(hexCharCodeStr) {　　
+      var trimedStr = hexCharCodeStr.trim();　　
+      var rawStr = 　　trimedStr.substr(0, 2).toLowerCase() === "0x"　　 ? 　　trimedStr.substr(2)　　 : 　　trimedStr;　　
+      var len = rawStr.length;　　
+      if (len % 2 !== 0) {　　　　
+        alert("Illegal Format ASCII Code!");　　　　
+        return "";　　
+      }　　
+      var curCharCode;　　
+      var resultStr = [];　　
+      for (var i = 0; i < len; i = i + 2) {　　　　
+        curCharCode = parseInt(rawStr.substr(i, 2), 16); // ASCII Code Value
+        　　　　
+        resultStr.push(String.fromCharCode(curCharCode));　　
+      }　　
+      return resultStr.join("");
     }
 
- 
-    //时间解析
-    var time = '2001015A66C2FC'
+    //重力传感器解析
+    var gravitySensor = '060101000000';
+    var splitGravitySensor = gravitySensor.split('');
+    //用于报警信息检测；【00:正常，01:报警】
+    var warnSignal = splitGravitySensor.slice(6, 8).join('')
+    var mAngle = parseInt(splitGravitySensor.slice(8, 12).join(''), 16) / 100.00
+    console.log(mAngle)
+    console.log(warnSignal)
 
-    var splitTime = time.split('')
+
+
+
+    //水浸解析
+    var water = '1301010000'
+    var splitWater = water.split('')
+    var mWater = splitWater.slice(6, 8).join('')
+    var waterWarn = splitWater.slice(8, 10).join('')
+    console.log(mWater)
+    console.log(waterWarn)
+
+
+    //时间解析
+    var repoTime = '2001015A66C2FC'
+
+    var splitTime = repoTime.split('')
     var unixTime = parseInt(splitTime.slice(6, 14).join(''), 16)
-    var mTime = FormatDateTime(unixTime.toString()+'000')
+    var mTime = FormatDateTime(unixTime.toString() + '000')
     console.log(mTime)
 
 
@@ -212,7 +237,7 @@ Page({
 
   },
 
-  
+
 
 
   //***************** */
@@ -293,7 +318,14 @@ Page({
 
 
 
-
+            /*
+             
+             "ACCOUNT": "MLPROJ-LHJ",
+        "METHOD": "LOGIN",
+        "PASSWORD": "MLink*1212"
+              
+             
+            */
 
 
 
@@ -308,25 +340,22 @@ Page({
     wx.request({
       url: 'http://112.74.62.193/appservice', //仅为示例，并非真实的接口地址
       data: {
-        "ACCOUNT": "MLPROJ-LHJ",
+        "ACCOUNT": "WUYONGQIANG",
         "METHOD": "LOGIN",
-        "PASSWORD": "MLink*1212"
+        "PASSWORD": "Wyq*123123"
       },
       header: {
         'content-type': 'application/json' // 默认值
       },
       method: "POST",
       success: function(res) {
-        //console.log(res)
-        //console.log(res.data.RESULT.SESSIONID)
 
         sessionID = res.data.RESULT.SESSIONID
-        //console.log(res.data.RESULT.SESSIONID)
-        console.log(sessionID)
+        //console.log(sessionID)
 
         //****************** */
         wx.request({
-          url: 'http://112.74.62.193/appservice', //仅为示例，并非真实的接口地址
+          url: 'http://112.74.62.193/appservice', 
           data: {
             "METHOD": "GETDEVICELIST",
             "SESSIONID": sessionID
@@ -334,18 +363,15 @@ Page({
           },
           method: "POST",
           header: {
-            'content-type': 'application/json' // 默认值
+            'content-type': 'application/json' 
           },
           success: function(res) {
             console.log("--------------------")
-            //console.log(res)
-            console.log("--------------------")
             console.log(res.data.RESULT)
-            console.log(res.data.RESULT[0].DEVICEID)
             console.log("--------------------")
-            deviceID = res.data.RESULT[0].DEVICEID
+            deviceID = res.data.RESULT[9].DEVICEID
 
-            /**************** */
+
 
             wx.request({
               url: 'http://112.74.62.193/appservice', //仅为示例，并非真实的接口地址
