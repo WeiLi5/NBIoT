@@ -16,7 +16,7 @@ Page({
         id: 1,
         iconPath: '../../images/icon_scan.png',
         position: {
-          left: 220,
+          left: 20,
           top: 20,
           width: 50,
           height: 50
@@ -26,29 +26,18 @@ Page({
       id: 'showmarker',
       iconPath: '../../images/icon_show_marker.png',
       position: {
-        left: 140,
+        left: 90,
         top: 20,
         width: 50,
         height: 50
       },
       clickable: true
-    },
-
-      {
-        id: 'usercentre',
-        iconPath: '../../images/icon_usercenter.png',
-        position: {
-          left: 300,
-          top: 20,
-          width: 50,
-          height: 50
-        },
-        clickable: true
-      }
+    }
     ],
     circles: []
 
   },
+
 
   onShow: function() {
     var _this = this;
@@ -145,6 +134,12 @@ Page({
 
                   }
                 }
+
+                _this.setData({
+                  markers: app.globalData.marker
+                })
+
+
               }
             })
           }
@@ -160,6 +155,9 @@ Page({
 
     })
 
+
+  
+
   },
 
   regionchange(e) {
@@ -170,7 +168,7 @@ Page({
   markertap(e) {
     //console.log(e.markerId)
     app.globalData.thisSN = e.markerId
-    console.log(e.markerId)
+ 
 
 
 
@@ -181,6 +179,68 @@ Page({
       success: function(res) {
         console.log(res.tapIndex)
         if (res.tapIndex == 0) {
+/*
+          var latitude = "";
+          var longitude = "";
+          var sn = "";
+          var address = "";
+          var city = "";
+          var temperature = "";
+          var gravityStatus = "";
+          var gravityAngle = "";
+          var waterWarning = "";
+          var waterStatus = "";
+          var battery = "";
+          var version = "";
+          var signalStrength = "";
+          var reportTime = "";
+          var imsi = "";
+          var errorCode = "";
+          var createTime = "";
+          var operPhone = "";
+
+
+
+          //获取单个设备信息
+          wx.request({
+            url: 'https://jinggai.woxinshangdi.com/device/queryDevice.htm',
+            data: {
+              "sn": app.globalData.thisSN
+            },
+            method: "GET",
+            header: {
+              'content-type': 'application/json'
+            },
+            success: function (res) {
+              console.log(res.data)
+              app.globalData.sn = res.data.device.sn
+              app.globalData.longitude = res.data.device.longitude
+              app.globalData.latitude = res.data.device.latitude
+              app.globalData.operPhone = res.data.device.operPhone
+              app.globalData.address = res.data.device.address
+              app.globalData.city = res.data.device.city
+
+              app.globalData.temperature = res.data.deviceData.temperature;
+              app.globalData.gravityStatus = res.data.deviceData.gravityStatus;
+              app.globalData.gravityAngle = res.data.deviceData.gravityAngle;
+              app.globalData.waterWarning = res.data.deviceData.waterWarning;
+              app.globalData.waterStatus = res.data.deviceData.waterStatus;
+              app.globalData.battery = res.data.deviceData.battery;
+              app.globalData.version = res.data.deviceData.version;
+              app.globalData.signalStrength = res.data.deviceData.signalStrength;
+              app.globalData.reportTime = res.data.deviceData.reportTime;
+              app.globalData.imsi = res.data.deviceData.imsi;
+              app.globalData.errorCode = res.data.deviceData.errorCode;
+              app.globalData.createTime = res.data.deviceData.createTime;
+
+
+
+
+
+            }
+            
+          })
+          */
           wx.navigateTo({
             url: '../coverinfo/coverinfo',
           })
@@ -220,24 +280,11 @@ Page({
   controltap(e) {
     var that = this;
     console.log("scale===" + this.data.scale)
-    if (e.controlId === 'usercentre') {
-      wx.navigateTo({
-        url: '../usercentre/usercentre',
-      })
-    } 
     if (e.controlId === 'showmarker'){
       var _this = this;
-      console.log("111111111111111")
-      console.log(this.data.markers)
-      console.log(app.globalData.marker)
       _this.setData({
         markers: app.globalData.marker
       })
-      console.log('2222222222222222')
-      console.log(this.data.markers)
-      console.log(app.globalData.marker)
-
-
     }
     if(e.controlId === 1) {
       wx.scanCode({
@@ -251,9 +298,6 @@ Page({
         }
       })
     }
-
-
   },
-
 
 })

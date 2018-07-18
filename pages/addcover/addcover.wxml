@@ -9,10 +9,20 @@
   <view class="page__bd">
     <view class="weui-cells__title">井盖信息</view>
     <view class="weui-cells weui-cells_after-title">
-
+<!-- 这里写注释
       <view class="weui-cell">
         <view class="weui-cell__bd">SN</view>
         <view class="weui-cell__ft">{{sn}}</view>
+      </view>
+-->
+
+      <view class="weui-cell weui-cell_input">
+        <view class="weui-cell__hd">
+          <view class="weui-label">输入sn</view>
+        </view>
+        <view class="weui-cell__bd">
+          <input class="weui-input" placeholder="请输入sn" bindinput='bindSN'/>
+        </view>
       </view>
 
       <view class="weui-cell">

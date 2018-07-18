@@ -54,6 +54,8 @@ Page({
   },
 
 
+//出现bug，onLoad()在onReady之后加载，导致setData为空
+
   onLoad: function () {
     var latitude = "";
     var longitude = "";
@@ -73,6 +75,7 @@ Page({
     var errorCode = "";
     var createTime = "";
     var operPhone = "";
+    var _this = this;
 
 
 
@@ -87,9 +90,8 @@ Page({
         'content-type': 'application/json'
       },
       success: function (res) {
-        console.log(res.data.device)
         console.log(res.data)
-        app.globalData.sn = res.data.device.thisSN
+        app.globalData.sn = res.data.device.sn
         app.globalData.longitude = res.data.device.longitude
         app.globalData.latitude = res.data.device.latitude
         app.globalData.operPhone = res.data.device.operPhone
@@ -109,6 +111,31 @@ Page({
         app.globalData.errorCode = res.data.deviceData.errorCode;
         app.globalData.createTime = res.data.deviceData.createTime;
 
+        //视图层数据绑定
+        
+        _this.setData({
+          sn: app.globalData.sn,
+          latitude: app.globalData.latitude,
+          longitude: app.globalData.longitude,
+          address: app.globalData.address,
+          city: app.globalData.city,
+          operPhone: app.globalData.operPhone,
+          //deviceData
+          temperature: app.globalData.temperature,
+          gravityStatus: app.globalData.gravityStatus,
+          gravityAngle: app.globalData.gravityAngle,
+          waterWarning: app.globalData.waterWarning,
+          waterStatus: app.globalData.waterStatus,
+          battery: app.globalData.battery,
+          version: app.globalData.version,
+          signalStrength: app.globalData.signalStrength,
+          reportTime: app.globalData.reportTime,
+          imsi: app.globalData.imsi,
+          errorCode: app.globalData.errorCode,
+          createTime: app.globalData.createTime,
+          city: app.globalData.city
+
+        })
 
 
 
@@ -117,67 +144,7 @@ Page({
     })
 
 
-
-
-
-
-    //视图层数据绑定
-    var that = this;
-    that.setData({
-      //device
-      sn: sn,
-      latitude: latitude,
-      longitude: longitude,
-      address: address,
-      //deviceData
-      temperature: temperature,
-      gravityStatus: gravityStatus,
-      gravityAngle: gravityAngle,
-      waterWarning: waterWarning,
-      battery: battery,
-      version: version,
-      signalStrength: signalStrength,
-      reportTime: reportTime,
-      imsi: imsi,
-      errorCode: errorCode,
-      createTime: createTime,
-      city: city
-    })
-    console.log(app.globalData.thisSN)
-    console.log(this.data.imsi)
-
-
-
   },
-  onReady: function () {
-    //视图层数据绑定
-    var that = this;
-    that.setData({
-      sn: app.globalData.thisSN,
-      latitude: app.globalData.latitude,
-      longitude: app.globalData.longitude,
-      address: app.globalData.address,
-      city: app.globalData.city,
-      operPhone: app.globalData.operPhone,
-      //deviceData
-            //deviceData
-      temperature: app.globalData.temperature,
-      gravityStatus: app.globalData.gravityStatus,
-      gravityAngle: app.globalData.gravityAngle,
-      waterWarning: app.globalData.waterWarning,
-      waterStatus: app.globalData.waterStatus,
-      battery: app.globalData.battery,
-      version: app.globalData.version,
-      signalStrength: app.globalData.signalStrength,
-      reportTime: app.globalData.reportTime,
-      imsi: app.globalData.imsi,
-      errorCode: app.globalData.errorCode,
-      createTime: app.globalData.createTime,
-      city: app.globalData.city
 
-    })
-    console.log(app.globalData.thisSN)
-    console.log(this.data.oper)
-  }
 
 })

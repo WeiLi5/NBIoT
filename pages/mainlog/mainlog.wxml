@@ -5,7 +5,7 @@
 <view class="page">
     <view class="page__hd">
         <view class="page__title">NB-IoT智能井盖</view>
-        <view class="page__desc">欢迎使用NB-IoT智能井盖检测小程序体验版本</view>
+        <view class="page__desc">欢迎使用NB-IoT智能井盖检测小程序体验版本！本小程序仅限公司内部人员使用，使用权限由公司管理者决定，普通用户无登陆权限。使用本小程序前，需关注服务号NBIoT智能井盖服务号，用于接收设备报警信息。</view>
     </view>
 
     <view class="page__bd page__bd_spacing">

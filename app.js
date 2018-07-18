@@ -7,6 +7,8 @@ App({
 
   onLaunch: function() {
   },
+  onReady: function () {
+  },
 
   onShow: function () {
     // Do something when show.
@@ -16,7 +18,7 @@ App({
   },
 
   globalData: {
-    oper:'',
+    operPhone:'',
     userInfo: null,
     markers: [],
     longitude: '', //经度  
@@ -32,6 +34,7 @@ App({
     code: '',
     //deviceData
     temperature: '',
+    waterStatus:'',
     gravityStatus: '',
     gravityAngle: '',
     waterWarning: '',
@@ -42,6 +45,7 @@ App({
     imsi: '',
     errorCode: '',
     createTime: '',
+    sn:'xxx',
     city: ''
 
   }

@@ -21,16 +21,24 @@ Page({
     })
 
   },
+  bindSN: function (e) {
+    this.setData({
+      sn: e.detail.value
+    })
+
+  },
 
 
 
   addConfirm: function() {
-   
+
+
+   //'LHJ800210000006'
     wx.request({
       url: 'https://jinggai.woxinshangdi.com/device/addDevice.htm', 
       data: {
         "sessionId": app.globalData.sessionId,
-        "sn": 'LHJ800210000006',
+        "sn": this.data.sn,
         "latitude": app.globalData.latitude,
         "longitude": app.globalData.longitude,
         "address":app.globalData.address,
@@ -85,7 +93,9 @@ Page({
         latitude: app.globalData.latitude,
         longitude: app.globalData.longitude,
         address: app.globalData.address,
-        sn: app.globalData.barcodeResult,
+        //扫码
+        //sn: app.globalData.barcodeResult,
+
         city: app.globalData.city
 
       });
@@ -96,6 +106,7 @@ Page({
       fail: fail,
       success: success
     });
+
   }
 
 })

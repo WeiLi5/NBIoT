@@ -2,6 +2,21 @@
 var app = getApp();
 
 Page({
+  onLoad:function(){
+    wx.login({
+      success: function (res) {
+        if (res.code) {
+          app.globalData.code = res.code
+        } else {
+          console.log('登录失败！' + res.errMsg)
+        }
+      }
+    });
+  },
+
+
+
+
   getPhoneNumber: function (e) {
     var errMsg = e.detail.errMsg;
     var iv 
@@ -25,14 +40,14 @@ Page({
         showCancel: false,
         content: '同意授权',
         success: function (res) {
-          wx.login({
-            success: function (res) {
-              if (res.code) {
+          //wx.login({
+            //success: function (log) {
+          if (app.globalData.code) {
                 //登陆接口
                 wx.request({
                   url: 'https://jinggai.woxinshangdi.com/user/getSessionKeyByCode.htm',
                   data: {
-                    code: res.code
+                    code: app.globalData.code
                   },
                   header: {
                     'content-type': 'application/x-www-form-urlencoded'
@@ -74,6 +89,7 @@ Page({
                               data: sessionId
                             })
 
+
                             wx.redirectTo({
                               url: '../mappage/mappage',
                             })
@@ -87,6 +103,12 @@ Page({
                         }
                       })
 
+                    }
+                    else if (res.data.retCode == 2000){
+                      wx.showModal({
+                        title: '登陆失败',
+                        content: res.data.retMsg,
+                      });
                     } 
                     else {
                       wx.showModal({
@@ -104,7 +126,7 @@ Page({
           });
 
         }
-      })
-    }
+      //})
+    //}
   }
 })

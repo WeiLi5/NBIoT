@@ -6,12 +6,9 @@
     "pages/phonelog/phonelog",
     "pages/index/index",
     "pages/mappage/mappage",
-    "pages/changepassword/changepassword",
     "pages/coverinfo/coverinfo",
     "pages/uploadfile/uploadfile",
-        "pages/addcover/addcover",
-        
-    "pages/wxmsg/wxmsg"
+    "pages/addcover/addcover"
   ],
   "window": {
     "backgroundTextStyle": "light",
