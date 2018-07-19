@@ -1,4 +1,4 @@
-// pages/phonelog/phonelog.js
+// pages/alarmRelease/alarmRelease.js
 Page({
 
   /**
@@ -7,11 +7,9 @@ Page({
   data: {
   
   },
-
-  //跳转账号登录页面
-  logbyac:function(){
-    wx.redirectTo({
-      url: '../mainlog/mainlog',
+  backToMap:function(){
+    wx.reLaunch({
+      url: '../mappage/mappage',
     })
   },
 

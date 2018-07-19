@@ -43,7 +43,8 @@ Page({
         "longitude": app.globalData.longitude,
         "address":app.globalData.address,
         "city":app.globalData.city,
-        "description":"测试井盖"
+        "description":"测试井盖",
+        'number':this.data.coverNo
         
       },
       method: "POST",
@@ -52,6 +53,11 @@ Page({
       },
       success: function(res) {
         if (res.data.retCode == 0){
+          wx.showToast({
+            title: '警报已解除',
+            icon: 'success',
+            duration: 3000
+          });
         console.log("添加设备成功")
         //添加设备
         wx.reLaunch({

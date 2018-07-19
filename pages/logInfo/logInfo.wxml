@@ -1,0 +1,7 @@
+<!--pages/logInfo/logInfo.wxml-->
+
+
+<view class="weui-cell" wx:for="{{logInfo}}">
+  <view class="weui-cell__bd">{{index}}</view>
+  <view class="weui-cell__ft">{{item}}</view>
+</view>

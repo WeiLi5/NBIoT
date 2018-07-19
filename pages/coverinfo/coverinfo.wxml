@@ -98,6 +98,12 @@
     </view>
   </view>
 
+    <view class="page__bd page__bd_spacing">
+    <button class="weui-btn" type="primary" bindtap='checkLog'>查看历史报警信息</button>
+
+
+  </view>
+
 
   <view class="page__bd page__bd_spacing">
     <button class="weui-btn" type="warn" bindtap='deleteCover'>删除此设备</button>

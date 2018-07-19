@@ -1,0 +1,4 @@
+/* pages/alarmRelease/alarmRelease.wxss */
+page{
+    background-color: #FFFFFF;
+}

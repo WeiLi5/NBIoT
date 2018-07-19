@@ -22,7 +22,9 @@ Page({
           height: 50
         },
         clickable: true
-    }, {
+    }
+    /*
+    , {
       id: 'showmarker',
       iconPath: '../../images/icon_show_marker.png',
       position: {
@@ -33,6 +35,8 @@ Page({
       },
       clickable: true
     }
+
+    */
     ],
     circles: []
 
@@ -93,7 +97,7 @@ Page({
             wx.request({
               url: 'https://jinggai.woxinshangdi.com/device/deviceList.htm',
               data: {
-                sessionId: res.data
+                sessionId: app.globalData.sessionId
           },
               header: {
                 'content-type': 'application/json' // 默认值
@@ -101,27 +105,18 @@ Page({
               success: function (res) {
                 console.log("获取设备列表成功")
                 var datas = res.data.deviceList;
-                console.log(datas)
-                console.log("+++++++++++++++++++++")
-                console.log(res.data)
+                var warn = '';
+                console.log(datas[1].status)
                 //初始化清空全局marker list
                 //主要为了设备全部删光的情况
                 app.globalData.marker = []
 
+          //设备状态：1正常；2水浸；3撬动；4未收到设备上报数据；5水浸且撬动；
+          
 
                 for (var i in datas) {
 
-                  if (true) {
-                    app.globalData.marker[i] = {
-                      id: datas[i].sn,
-                      longitude: datas[i].longitude,
-                      latitude: datas[i].latitude,
-                      width: 50,
-                      height: 50,
-                      iconPath: "../../images/map-marker-icon.png",
-                      title: datas[i].sn
-                    }
-                  } else {
+                  if (datas[i].status == 1) {
                     app.globalData.marker[i] = {
                       id: datas[i].sn,
                       longitude: datas[i].longitude,
@@ -131,7 +126,50 @@ Page({
                       iconPath: "../../images/map-marker-icon-normal.png",
                       title: datas[i].sn
                     }
-
+                  } 
+                  if (datas[i].status == 2) {
+                    app.globalData.marker[i] = {
+                      id: datas[i].sn,
+                      longitude: datas[i].longitude,
+                      latitude: datas[i].latitude,
+                      width: 50,
+                      height: 50,
+                      iconPath: "../../images/map-marker-icon-water.png",
+                      title: datas[i].sn
+                    }
+                  } 
+                  if (datas[i].status == 3) {
+                    app.globalData.marker[i] = {
+                      id: datas[i].sn,
+                      longitude: datas[i].longitude,
+                      latitude: datas[i].latitude,
+                      width: 50,
+                      height: 50,
+                      iconPath: "../../images/map-marker-icon-warn.png",
+                      title: datas[i].sn
+                    }
+                  }
+                  if (datas[i].status == 4) {
+                    app.globalData.marker[i] = {
+                      id: datas[i].sn,
+                      longitude: datas[i].longitude,
+                      latitude: datas[i].latitude,
+                      width: 50,
+                      height: 50,
+                      iconPath: "../../images/map-marker-icon-nodata.png",
+                      title: datas[i].sn
+                    }
+                  }  
+                  if (datas[i].status == 5) {
+                    app.globalData.marker[i] = {
+                      id: datas[i].sn,
+                      longitude: datas[i].longitude,
+                      latitude: datas[i].latitude,
+                      width: 50,
+                      height: 50,
+                      iconPath: "../../images/map-marker-icon-doublewarn.png",
+                      title: datas[i].sn
+                    }
                   }
                 }
 
@@ -139,9 +177,9 @@ Page({
                   markers: app.globalData.marker
                 })
 
-
               }
             })
+            
           }
         })
 
@@ -178,76 +216,16 @@ Page({
       itemList: ["查看该井盖信息", "开始导航","警报归位"],
       success: function(res) {
         console.log(res.tapIndex)
+
+        //查看井盖详细上报信息
         if (res.tapIndex == 0) {
-/*
-          var latitude = "";
-          var longitude = "";
-          var sn = "";
-          var address = "";
-          var city = "";
-          var temperature = "";
-          var gravityStatus = "";
-          var gravityAngle = "";
-          var waterWarning = "";
-          var waterStatus = "";
-          var battery = "";
-          var version = "";
-          var signalStrength = "";
-          var reportTime = "";
-          var imsi = "";
-          var errorCode = "";
-          var createTime = "";
-          var operPhone = "";
-
-
-
-          //获取单个设备信息
-          wx.request({
-            url: 'https://jinggai.woxinshangdi.com/device/queryDevice.htm',
-            data: {
-              "sn": app.globalData.thisSN
-            },
-            method: "GET",
-            header: {
-              'content-type': 'application/json'
-            },
-            success: function (res) {
-              console.log(res.data)
-              app.globalData.sn = res.data.device.sn
-              app.globalData.longitude = res.data.device.longitude
-              app.globalData.latitude = res.data.device.latitude
-              app.globalData.operPhone = res.data.device.operPhone
-              app.globalData.address = res.data.device.address
-              app.globalData.city = res.data.device.city
-
-              app.globalData.temperature = res.data.deviceData.temperature;
-              app.globalData.gravityStatus = res.data.deviceData.gravityStatus;
-              app.globalData.gravityAngle = res.data.deviceData.gravityAngle;
-              app.globalData.waterWarning = res.data.deviceData.waterWarning;
-              app.globalData.waterStatus = res.data.deviceData.waterStatus;
-              app.globalData.battery = res.data.deviceData.battery;
-              app.globalData.version = res.data.deviceData.version;
-              app.globalData.signalStrength = res.data.deviceData.signalStrength;
-              app.globalData.reportTime = res.data.deviceData.reportTime;
-              app.globalData.imsi = res.data.deviceData.imsi;
-              app.globalData.errorCode = res.data.deviceData.errorCode;
-              app.globalData.createTime = res.data.deviceData.createTime;
-
-
-
-
-
-            }
-            
-          })
-          */
           wx.navigateTo({
             url: '../coverinfo/coverinfo',
           })
         }
         if (res.tapIndex == 1) {
           //获取所点击的井盖地理位置信息
-          //获取单个设备信息
+          //调用获取单个设备数据接口
           wx.request({
             url: 'https://jinggai.woxinshangdi.com/device/queryDevice.htm',
             data: {
@@ -258,6 +236,7 @@ Page({
               'content-type': 'application/json'
             },
             success: function (res) {
+              //打开导航
               wx.openLocation({
                 latitude: Number(res.data.device.latitude),
                 longitude: Number(res.data.device.longitude),
@@ -267,8 +246,45 @@ Page({
               })
             }
           })
-
         }
+
+        //解除警报
+        if (res.tapIndex == 2) {
+          wx.request({
+            url: 'https://jinggai.woxinshangdi.com/device/releaseAlarm.htm',
+
+            data: {
+              "sessionId": app.globalData.sessionId,
+              "sn": app.globalData.thisSN
+            },
+            method: "POST",
+            header: {
+              'content-type': 'application/x-www-form-urlencoded'
+            },
+            success: function (res) {
+              if (res.data.retCode == 0){
+                //刷新地图页面
+                //未发现好方法
+                //-------
+                wx.reLaunch({
+                  url: '../alarmRelease/alarmRelease',
+                })
+
+
+                ///------
+
+              }
+              else{
+                wx.showModal({
+                  title: '解除警报失败',
+                  content: res.data.retMsg,
+                });
+              }
+            }
+
+          })
+        }
+
       },
       fail: function(res) {
         console.log(res.errMsg)
@@ -281,10 +297,7 @@ Page({
     var that = this;
     console.log("scale===" + this.data.scale)
     if (e.controlId === 'showmarker'){
-      var _this = this;
-      _this.setData({
-        markers: app.globalData.marker
-      })
+
     }
     if(e.controlId === 1) {
       wx.scanCode({

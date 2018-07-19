@@ -11,7 +11,7 @@
 
       <view class="weui-cell">
         <view class="weui-cell__bd">账号</view>
-        <view class="weui-cell__ft">{{username}}</view>
+        <view class="weui-cell__ft"></view>
       </view>
 
       <view class="weui-cell">

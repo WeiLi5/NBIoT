@@ -1,13 +1,13 @@
 {
   "pages": [
+        
     "pages/mainlog/mainlog",
-    "pages/signup/signup",
     "pages/usercentre/usercentre",
-    "pages/phonelog/phonelog",
     "pages/index/index",
     "pages/mappage/mappage",
     "pages/coverinfo/coverinfo",
-    "pages/uploadfile/uploadfile",
+    "pages/logInfo/logInfo",
+        "pages/alarmRelease/alarmRelease",
     "pages/addcover/addcover"
   ],
   "window": {

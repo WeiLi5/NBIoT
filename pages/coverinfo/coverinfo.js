@@ -28,33 +28,56 @@ Page({
 
   //删除此设备
   deleteCover: function () {
-
-    //获取设备deviceID
-    wx.request({
-      url: 'https://jinggai.woxinshangdi.com/device/delDevice.htm',
-      data: {
-        "sessionId": app.globalData.sessionId,
-        "sn": app.globalData.thisSN
-
-      },
-      method: "POST",
-      header: {
-        'content-type': 'application/x-www-form-urlencoded' // 默认值
-      },
+    wx.showModal({
+      title: '删除设备',
+      content: '是否确认将此设备删除？',
+      confirmText: "确认",
+      cancelText: "取消",
       success: function (res) {
-        console.log(app.globalData.thisSN)
-        console.log(res.data)
+        console.log(res);
+        if (res.confirm) {
+          console.log('用户点击主操作')
 
-        //删除设备成功
-        wx.reLaunch({
-          url: '../mappage/mappage',
-        })
+          //获取设备deviceID
+          wx.request({
+            url: 'https://jinggai.woxinshangdi.com/device/delDevice.htm',
+            data: {
+              "sessionId": app.globalData.sessionId,
+              "sn": app.globalData.thisSN
+
+            },
+            method: "POST",
+            header: {
+              'content-type': 'application/x-www-form-urlencoded' // 默认值
+            },
+            success: function (res) {
+              console.log(app.globalData.thisSN)
+              console.log(res.data)
+
+              //删除设备成功
+              wx.reLaunch({
+                url: '../mappage/mappage',
+              })
+            }
+          })
+
+
+
+        } else {
+          console.log('用户点击取消')
+        }
       }
+    });
+
+  },
+  checkLog:function(){
+    wx.redirectTo({
+      url: '../logInfo/logInfo',
     })
   },
 
 
-//出现bug，onLoad()在onReady之后加载，导致setData为空
+
 
   onLoad: function () {
     var latitude = "";
