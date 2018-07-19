@@ -250,39 +250,83 @@ Page({
 
         //解除警报
         if (res.tapIndex == 2) {
-          wx.request({
-            url: 'https://jinggai.woxinshangdi.com/device/releaseAlarm.htm',
+          //判断设备是否处于报警状态
 
+
+
+          //获取单个设备信息
+          wx.request({
+            url: 'https://jinggai.woxinshangdi.com/device/queryDevice.htm',
             data: {
-              "sessionId": app.globalData.sessionId,
               "sn": app.globalData.thisSN
             },
-            method: "POST",
+            method: "GET",
             header: {
-              'content-type': 'application/x-www-form-urlencoded'
+              'content-type': 'application/json'
             },
             success: function (res) {
-              if (res.data.retCode == 0){
-                //刷新地图页面
-                //未发现好方法
-                //-------
-                wx.reLaunch({
-                  url: '../alarmRelease/alarmRelease',
-                })
-
-
-                ///------
+              if (res.data.device.status == 1 ||res.data.device.status == 4){
+                wx.showModal({
+                  content: '此设备不处于警报状态或处于未上报数据状态，黄色指针属于未上报状态，未上报状态无法手动解除警报',
+                  showCancel: false,
+                  success: function (res) {
+                    if (res.confirm) {
+                      console.log('确定')
+                    }
+                  }
+                });
 
               }
               else{
-                wx.showModal({
-                  title: '解除警报失败',
-                  content: res.data.retMsg,
-                });
-              }
-            }
 
+
+
+                //调用解除警报接口
+                wx.request({
+                  url: 'https://jinggai.woxinshangdi.com/device/releaseAlarm.htm',
+
+                  data: {
+                    "sessionId": app.globalData.sessionId,
+                    "sn": app.globalData.thisSN
+                  },
+                  method: "POST",
+                  header: {
+                    'content-type': 'application/x-www-form-urlencoded'
+                  },
+                  success: function (res) {
+                    if (res.data.retCode == 0) {
+                      //刷新地图页面
+                      //未发现好方法
+                      //-------
+                      wx.reLaunch({
+                        url: '../alarmRelease/alarmRelease',
+                      })
+
+
+                      ///------
+
+                    }
+                    else {
+                      wx.showModal({
+                        title: '解除警报失败',
+                        content: res.data.retMsg,
+                      });
+                    }
+                  }
+
+                })
+
+
+              }
+
+            }
           })
+
+
+
+
+
+
         }
 
       },

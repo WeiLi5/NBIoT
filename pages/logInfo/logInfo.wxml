@@ -3,6 +3,6 @@
 
   <view class="weui-cell__bd">{{key}}</view>
   <view wx:if="{{value.color == 0}}" class="weui-cell__alarm">{{value.msg}}</view>
-    <view wx:if="{{value.color == 1}}" class="eui-cell__release">{{value.msg}}</view>
+    <view wx:if="{{value.color == 1}}" class="weui-cell__release">{{value.msg}}</view>
 
 </view>

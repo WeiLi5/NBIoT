@@ -38,7 +38,7 @@ Page({
         if (res.confirm) {
           console.log('用户点击主操作')
 
-          //获取设备deviceID
+        
           wx.request({
             url: 'https://jinggai.woxinshangdi.com/device/delDevice.htm',
             data: {
