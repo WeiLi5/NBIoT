@@ -19,6 +19,7 @@ App({
 
   globalData: {
     logMsg:[],
+    logColor:[],
     operPhone:'',
     userInfo: null,
     markers: [],

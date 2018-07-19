@@ -1,1 +1,11 @@
 /* pages/logInfo/logInfo.wxss */
+
+.weui-cell__alarm {
+  text-align: right;
+  color: #CD3700;
+}
+
+.weui-cell__release {
+  text-align: right;
+  color: #00CD66;
+}

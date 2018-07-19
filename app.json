@@ -1,13 +1,12 @@
 {
   "pages": [
-        
     "pages/mainlog/mainlog",
     "pages/usercentre/usercentre",
     "pages/index/index",
     "pages/mappage/mappage",
     "pages/coverinfo/coverinfo",
     "pages/logInfo/logInfo",
-        "pages/alarmRelease/alarmRelease",
+    "pages/alarmRelease/alarmRelease",
     "pages/addcover/addcover"
   ],
   "window": {

@@ -6,7 +6,9 @@ Page({
    * 页面的初始数据
    */
   data: {
-    logInfo:[]
+    logInfo:[],
+    logType:[]
+
   
   },
 
@@ -28,6 +30,7 @@ Page({
       },
       success: function (res) {
         var alarmInfo = [];
+        var logColor = [];
         /**
         sn : xxx, //设备编号
 				type : xxx, //类型：0报警；1解除报警；
@@ -43,32 +46,46 @@ Page({
         for (var i in alarmInfo){
           //报警
           if(alarmInfo[i].type == 0){
+            logColor[i] = 0
             if (alarmInfo[i].alarmType == 2){
-              logMsg[i] = alarmInfo[i].createTime +'：水浸报警'
+              logMsg[i] = {
+                msg: alarmInfo[i].createTime + '：水浸报警', color: 0
+              }
             }
             if (alarmInfo[i].alarmType == 3) {
-              logMsg[i] = alarmInfo[i].createTime + '：撬动报警'
+              logMsg[i] = {msg:alarmInfo[i].createTime + '：撬动报警',color:0}
             }
             if (alarmInfo[i].alarmType == 4) {
-              logMsg[i] = alarmInfo[i].createTime + '：设备未上报数据'
+              logMsg[i] = {
+                msg: alarmInfo[i].createTime + '：设备未上报数据', color: 0
+              }
             }
             if (alarmInfo[i].alarmType == 5) {
-              logMsg[i] = alarmInfo[i].createTime + '：水浸且撬动'
+              logMsg[i] = {
+                msg: alarmInfo[i].createTime + '：水浸且撬动', color: 0
+              }
             }
           }
 
           if (alarmInfo[i].type == 1){
+            logColor[i] = 1
             if (alarmInfo[i].alarmType == 2) {
-              logMsg[i] = alarmInfo[i].createTime + '：操作人:' + alarmInfo[i].releasePhone+' 解除了水浸报警'
+              logMsg[i] = {
+                msg: alarmInfo[i].createTime + '：操作人:' + alarmInfo[i].releasePhone + ' 解除了水浸报警', color: 1
+              }
             }
             if (alarmInfo[i].alarmType == 3) {
-              logMsg[i] = alarmInfo[i].createTime + '：操作人:' + alarmInfo[i].releasePhone + ' 解除了撬动报警'
+              logMsg[i] = {msg:alarmInfo[i].createTime + '：操作人:' + alarmInfo[i].releasePhone + ' 解除了撬动报警',color:1}
             } 
             if (alarmInfo[i].alarmType == 4) {
-              logMsg[i] = alarmInfo[i].createTime +' 设备重新上报数据'
+              logMsg[i] = {
+                msg: alarmInfo[i].createTime + ' 设备重新上报数据', color: 1
+              }
             } 
             if (alarmInfo[i].alarmType == 5) {
-              logMsg[i] = alarmInfo[i].createTime + '：操作人:' + alarmInfo[i].releasePhone + ' 解除了水浸和撬动报警'
+              logMsg[i] = {
+                msg: alarmInfo[i].createTime + '：操作人:' + alarmInfo[i].releasePhone + ' 解除了水浸和撬动报警', color: 1
+              }
             }
 
           }
@@ -77,10 +94,12 @@ Page({
 
         }
        app.globalData.logMsg = logMsg
+       app.globalData.logColor = logColor
 
 
        _this.setData({
-         logInfo: app.globalData.logMsg
+         logInfo: app.globalData.logMsg,
+         logType: app.globalData.logColor
        })
 
 
