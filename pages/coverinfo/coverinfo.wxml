@@ -85,14 +85,10 @@
       </view>
 
       <view class="weui-cell">
-        <view class="weui-cell__bd">水浸报警</view>
-        <view class="weui-cell__ft">{{waterWarning}}</view>
+        <view class="weui-cell__bd">警报状态</view>
+        <view class="weui-cell__ft">{{warningInfo}}</view>
       </view>
 
-      <view class="weui-cell">
-        <view class="weui-cell__bd">重力状态</view>
-        <view class="weui-cell__ft">{{gravityStatus}}</view>
-      </view>
 
 
     </view>

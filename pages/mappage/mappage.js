@@ -95,7 +95,7 @@ Page({
             app.globalData.sessionId = res.data
 
             wx.request({
-              url: 'https://jinggai.woxinshangdi.com/device/deviceList.htm',
+              url: 'https://jinggai.lhj.mlink-tech.cn/device/deviceList.htm',
               data: {
                 sessionId: app.globalData.sessionId
           },
@@ -106,7 +106,7 @@ Page({
                 console.log("获取设备列表成功")
                 var datas = res.data.deviceList;
                 var warn = '';
-                console.log(datas[1].status)
+       
                 //初始化清空全局marker list
                 //主要为了设备全部删光的情况
                 app.globalData.marker = []
@@ -171,6 +171,7 @@ Page({
                       title: datas[i].sn
                     }
                   }
+
                 }
 
                 _this.setData({
@@ -227,7 +228,7 @@ Page({
           //获取所点击的井盖地理位置信息
           //调用获取单个设备数据接口
           wx.request({
-            url: 'https://jinggai.woxinshangdi.com/device/queryDevice.htm',
+            url: 'https://jinggai.lhj.mlink-tech.cn/device/queryDevice.htm',
             data: {
               "sn": app.globalData.thisSN
             },
@@ -251,12 +252,9 @@ Page({
         //解除警报
         if (res.tapIndex == 2) {
           //判断设备是否处于报警状态
-
-
-
           //获取单个设备信息
           wx.request({
-            url: 'https://jinggai.woxinshangdi.com/device/queryDevice.htm',
+            url: 'https://jinggai.lhj.mlink-tech.cn/device/queryDevice.htm',
             data: {
               "sn": app.globalData.thisSN
             },
@@ -278,12 +276,9 @@ Page({
 
               }
               else{
-
-
-
                 //调用解除警报接口
                 wx.request({
-                  url: 'https://jinggai.woxinshangdi.com/device/releaseAlarm.htm',
+                  url: 'https://jinggai.lhj.mlink-tech.cn/device/releaseAlarm.htm',
 
                   data: {
                     "sessionId": app.globalData.sessionId,

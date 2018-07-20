@@ -37,9 +37,10 @@ App({
     //deviceData
     temperature: '',
     waterStatus:'',
-    gravityStatus: '',
+    warningInfo:'',
+
     gravityAngle: '',
-    waterWarning: '',
+
     battery: '',
     version: '',
     signalStrength: '',

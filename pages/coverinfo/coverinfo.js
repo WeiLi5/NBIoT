@@ -11,9 +11,9 @@ Page({
     address: "",
     city: "",
     temperature: "", //温度（单位℃）
-    gravityStatus: "", //重力状态 00正常，01报警
+    warningInfo:'',
     gravityAngle: "", //重力角度（单位：度）
-    waterWarning: "", //水浸报警 00正常，01报警
+
     waterStatus: "", //水浸状态 00正常，01水浸
     battery: "", //电池电量（单位V）
     version: "", //设备内核版本
@@ -36,9 +36,6 @@ Page({
       success: function (res) {
         console.log(res);
         if (res.confirm) {
-          console.log('用户点击主操作')
-
-        
           wx.request({
             url: 'https://jinggai.woxinshangdi.com/device/delDevice.htm',
             data: {
@@ -51,8 +48,6 @@ Page({
               'content-type': 'application/x-www-form-urlencoded' // 默认值
             },
             success: function (res) {
-              console.log(app.globalData.thisSN)
-              console.log(res.data)
 
               //删除设备成功
               wx.reLaunch({
@@ -80,31 +75,14 @@ Page({
 
 
   onLoad: function () {
-    var latitude = "";
-    var longitude = "";
-    var sn = "";
-    var address = "";
-    var city = "";
-    var temperature = "";
-    var gravityStatus = "";
-    var gravityAngle = "";
-    var waterWarning = "";
-    var waterStatus = "";
-    var battery = "";
-    var version = "";
-    var signalStrength = "";
-    var reportTime = "";
-    var imsi = "";
-    var errorCode = "";
-    var createTime = "";
-    var operPhone = "";
+
     var _this = this;
 
 
 
     //获取单个设备信息
     wx.request({
-      url: 'https://jinggai.woxinshangdi.com/device/queryDevice.htm',
+      url: 'https://jinggai.lhj.mlink-tech.cn/device/queryDevice.htm',
       data: {
         "sn": app.globalData.thisSN
       },
@@ -120,11 +98,25 @@ Page({
         app.globalData.operPhone = res.data.device.operPhone
         app.globalData.address = res.data.device.address
         app.globalData.city = res.data.device.city
+        //设备状态：1正常；2水浸；3撬动；4未收到设备上报数据；5水浸且撬动；
+        if(res.data.device.status == 1){
+          app.globalData.warningInfo = '正常'
+        }
+        if (res.data.device.status == 2) {
+          app.globalData.warningInfo = '水浸'
+        }
+        if (res.data.device.status == 3) {
+          app.globalData.warningInfo = '撬动'
+        }
+        if (res.data.device.status == 4) {
+          app.globalData.warningInfo = '未收到设备上报数据'
+        }
+        if (res.data.device.status == 5) {
+          app.globalData.warningInfo = '水浸且撬动'
+        }
 
         app.globalData.temperature = res.data.deviceData.temperature;
-        app.globalData.gravityStatus = res.data.deviceData.gravityStatus;
         app.globalData.gravityAngle = res.data.deviceData.gravityAngle;
-        app.globalData.waterWarning = res.data.deviceData.waterWarning;
         app.globalData.waterStatus = res.data.deviceData.waterStatus;
         app.globalData.battery = res.data.deviceData.battery;
         app.globalData.version = res.data.deviceData.version;
@@ -133,9 +125,9 @@ Page({
         app.globalData.imsi = res.data.deviceData.imsi;
         app.globalData.errorCode = res.data.deviceData.errorCode;
         app.globalData.createTime = res.data.deviceData.createTime;
+        
 
         //视图层数据绑定
-        
         _this.setData({
           sn: app.globalData.sn,
           latitude: app.globalData.latitude,
@@ -143,11 +135,10 @@ Page({
           address: app.globalData.address,
           city: app.globalData.city,
           operPhone: app.globalData.operPhone,
+          warningInfo: app.globalData.warningInfo,
           //deviceData
           temperature: app.globalData.temperature,
-          gravityStatus: app.globalData.gravityStatus,
           gravityAngle: app.globalData.gravityAngle,
-          waterWarning: app.globalData.waterWarning,
           waterStatus: app.globalData.waterStatus,
           battery: app.globalData.battery,
           version: app.globalData.version,
@@ -157,7 +148,6 @@ Page({
           errorCode: app.globalData.errorCode,
           createTime: app.globalData.createTime,
           city: app.globalData.city
-
         })
 
 

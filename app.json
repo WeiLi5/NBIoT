@@ -1,7 +1,6 @@
 {
   "pages": [
     "pages/mainlog/mainlog",
-    "pages/usercentre/usercentre",
     "pages/index/index",
     "pages/mappage/mappage",
     "pages/coverinfo/coverinfo",

@@ -45,7 +45,7 @@ Page({
           if (app.globalData.code) {
                 //登陆接口
                 wx.request({
-                  url: 'https://jinggai.woxinshangdi.com/user/getSessionKeyByCode.htm',
+                  url: 'https://jinggai.lhj.mlink-tech.cn/user/getSessionKeyByCode.htm',
                   data: {
                     code: app.globalData.code
                   },
@@ -70,7 +70,7 @@ Page({
                     else if (res.data.retCode == 1000){
                       //获取手机号码
                       wx.request({
-                        url: 'https://jinggai.woxinshangdi.com/user/decodePhoneInfo.htm', 
+                        url: 'https://jinggai.lhj.mlink-tech.cn/user/decodePhoneInfo.htm', 
                         data: {
                           tempSessionId: res.data.tempSessionId,
                           encryptedData: app.globalData.encryptedData,
