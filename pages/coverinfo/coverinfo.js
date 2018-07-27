@@ -11,9 +11,8 @@ Page({
     address: "",
     city: "",
     temperature: "", //温度（单位℃）
-    warningInfo:'',
+    warningInfo: '',
     gravityAngle: "", //重力角度（单位：度）
-
     waterStatus: "", //水浸状态 00正常，01水浸
     battery: "", //电池电量（单位V）
     version: "", //设备内核版本
@@ -26,18 +25,46 @@ Page({
 
   },
 
+  //校准设备
+  recalibrateDevice: function(){
+
+    wx.request({
+      url: 'https://jinggai.lhj.mlink-tech.cn/device/pushData.htm',
+      data: {
+        "sessionId": app.globalData.sessionId,
+        "sn": app.globalData.thisSN,
+        'packet': '0001000000010A000601220101011122'
+
+      },
+      method: "POST",
+      header: {
+        'content-type': 'application/x-www-form-urlencoded' // 默认值
+      },
+      success: function (res) {
+        wx.showToast({
+          title: '校准成功',
+          icon: 'success',
+          duration: 3000
+        });
+      }
+
+    })
+
+
+  },
+
   //删除此设备
-  deleteCover: function () {
+  deleteCover: function() {
     wx.showModal({
       title: '删除设备',
       content: '是否确认将此设备删除？',
       confirmText: "确认",
       cancelText: "取消",
-      success: function (res) {
+      success: function(res) {
         console.log(res);
         if (res.confirm) {
           wx.request({
-            url: 'https://jinggai.woxinshangdi.com/device/delDevice.htm',
+            url: 'https://jinggai.lhj.mlink-tech.cn/device/delDevice.htm',
             data: {
               "sessionId": app.globalData.sessionId,
               "sn": app.globalData.thisSN
@@ -47,7 +74,7 @@ Page({
             header: {
               'content-type': 'application/x-www-form-urlencoded' // 默认值
             },
-            success: function (res) {
+            success: function(res) {
 
               //删除设备成功
               wx.reLaunch({
@@ -55,9 +82,6 @@ Page({
               })
             }
           })
-
-
-
         } else {
           console.log('用户点击取消')
         }
@@ -65,16 +89,14 @@ Page({
     });
 
   },
-  checkLog:function(){
+  checkLog: function() {
     wx.redirectTo({
       url: '../logInfo/logInfo',
     })
   },
 
 
-
-
-  onLoad: function () {
+  onLoad: function() {
 
     var _this = this;
 
@@ -90,7 +112,7 @@ Page({
       header: {
         'content-type': 'application/json'
       },
-      success: function (res) {
+      success: function(res) {
         console.log(res.data)
         app.globalData.sn = res.data.device.sn
         app.globalData.longitude = res.data.device.longitude
@@ -99,7 +121,7 @@ Page({
         app.globalData.address = res.data.device.address
         app.globalData.city = res.data.device.city
         //设备状态：1正常；2水浸；3撬动；4未收到设备上报数据；5水浸且撬动；
-        if(res.data.device.status == 1){
+        if (res.data.device.status == 1) {
           app.globalData.warningInfo = '正常'
         }
         if (res.data.device.status == 2) {
@@ -117,7 +139,13 @@ Page({
 
         app.globalData.temperature = res.data.deviceData.temperature;
         app.globalData.gravityAngle = res.data.deviceData.gravityAngle;
-        app.globalData.waterStatus = res.data.deviceData.waterStatus;
+        if (res.data.deviceData.waterStatus == '00'){
+          app.globalData.waterStatus = '未水浸'
+        }
+        if (res.data.deviceData.waterStatus == '01') {
+          app.globalData.waterStatus = '水浸'
+        }
+       
         app.globalData.battery = res.data.deviceData.battery;
         app.globalData.version = res.data.deviceData.version;
         app.globalData.signalStrength = res.data.deviceData.signalStrength;
@@ -125,7 +153,7 @@ Page({
         app.globalData.imsi = res.data.deviceData.imsi;
         app.globalData.errorCode = res.data.deviceData.errorCode;
         app.globalData.createTime = res.data.deviceData.createTime;
-        
+
 
         //视图层数据绑定
         _this.setData({
@@ -149,10 +177,6 @@ Page({
           createTime: app.globalData.createTime,
           city: app.globalData.city
         })
-
-
-
-
       }
     })
 

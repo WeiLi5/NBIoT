@@ -94,8 +94,13 @@
     </view>
   </view>
 
-    <view class="page__bd page__bd_spacing">
+  <view class="page__bd page__bd_spacing">
     <button class="weui-btn" type="primary" bindtap='checkLog'>查看历史报警信息</button>
+
+  </view>
+
+    <view class="page__bd page__bd_spacing">
+    <button class="weui-btn" type="primary" bindtap='recalibrateDevice'>设备校准</button>
 
 
   </view>

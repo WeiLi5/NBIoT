@@ -21,6 +21,8 @@ Page({
     })
 
   },
+
+  //手输sn【禁用】
   bindSN: function (e) {
     this.setData({
       sn: e.detail.value
@@ -35,10 +37,10 @@ Page({
 
    //'LHJ800210000006'
     wx.request({
-      url: 'https://jinggai.woxinshangdi.com/device/addDevice.htm', 
+      url: 'https://jinggai.lhj.mlink-tech.cn/device/addDevice.htm', 
       data: {
         "sessionId": app.globalData.sessionId,
-        "sn": this.data.sn,
+        "sn":app.globalData.barcodeResult,
         "latitude": app.globalData.latitude,
         "longitude": app.globalData.longitude,
         "address":app.globalData.address,
@@ -70,7 +72,6 @@ Page({
             content: res.data.retMsg,
           })
         }
-
       }
     })
 
@@ -100,7 +101,7 @@ Page({
         longitude: app.globalData.longitude,
         address: app.globalData.address,
         //扫码
-        //sn: app.globalData.barcodeResult,
+        sn: app.globalData.barcodeResult,
 
         city: app.globalData.city
 

@@ -14,7 +14,8 @@
         <view class="weui-cell__bd">SN</view>
         <view class="weui-cell__ft">{{sn}}</view>
       </view>
--->
+       -->
+
 
       <view class="weui-cell weui-cell_input">
         <view class="weui-cell__hd">
@@ -24,6 +25,7 @@
           <input class="weui-input" placeholder="请输入sn" bindinput='bindSN'/>
         </view>
       </view>
+    
 
       <view class="weui-cell">
         <view class="weui-cell__bd">纬度</view>
