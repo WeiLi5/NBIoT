@@ -21,36 +21,43 @@ Page({
     imsi: "", //IMSI
     errorCode: "", //错误码 1：IP和Port配置错误
     createTime: "",
-    operPhone: ""
+    operPhone: "",
+    ifRecalibrate:""
 
   },
 
   //校准设备
-  recalibrateDevice: function(){
+  recalibrateDevice: function() {
 
     wx.request({
       url: 'https://jinggai.lhj.mlink-tech.cn/device/pushData.htm',
       data: {
         "sessionId": app.globalData.sessionId,
         "sn": app.globalData.thisSN,
-        'packet': '0001000000010A000601220101011122'
+        'packet': '0001000000010A0005012301015566'
 
       },
       method: "POST",
       header: {
         'content-type': 'application/x-www-form-urlencoded' // 默认值
       },
-      success: function (res) {
-        wx.showToast({
-          title: '校准成功',
-          icon: 'success',
-          duration: 3000
-        });
+      success: function(res) {
+        if (res.data.retCode == 0) {
+          wx.showToast({
+            title: '校准成功',
+            icon: 'success',
+            duration: 3000
+          });
+        }
+        else{
+          wx.showToast({
+            title: '校准失败',
+            icon: 'fail',
+            duration: 3000
+          });
+        }
       }
-
     })
-
-
   },
 
   //删除此设备
@@ -137,15 +144,26 @@ Page({
           app.globalData.warningInfo = '水浸且撬动'
         }
 
+        //app.globalData.ifRecalibrate 
+        if (res.data.deviceData.isAdjusted == '00'){
+          app.globalData.ifRecalibrate = '未校准'
+        } 
+
+        if (res.data.deviceData.isAdjusted == '01') {
+          app.globalData.ifRecalibrate = '已校准'
+        } 
+
+ 
+
         app.globalData.temperature = res.data.deviceData.temperature;
         app.globalData.gravityAngle = res.data.deviceData.gravityAngle;
-        if (res.data.deviceData.waterStatus == '00'){
+        if (res.data.deviceData.waterStatus == '00') {
           app.globalData.waterStatus = '未水浸'
         }
         if (res.data.deviceData.waterStatus == '01') {
           app.globalData.waterStatus = '水浸'
         }
-       
+
         app.globalData.battery = res.data.deviceData.battery;
         app.globalData.version = res.data.deviceData.version;
         app.globalData.signalStrength = res.data.deviceData.signalStrength;
@@ -175,7 +193,8 @@ Page({
           imsi: app.globalData.imsi,
           errorCode: app.globalData.errorCode,
           createTime: app.globalData.createTime,
-          city: app.globalData.city
+          city: app.globalData.city,
+          ifRecalibrate:app.globalData.ifRecalibrate
         })
       }
     })

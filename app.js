@@ -35,12 +35,11 @@ App({
     warningSignal: '',
     code: '',
     //deviceData
+    ifRecalibrate:'',
     temperature: '',
     waterStatus:'',
     warningInfo:'',
-
     gravityAngle: '',
-
     battery: '',
     version: '',
     signalStrength: '',
