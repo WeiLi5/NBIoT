@@ -33,9 +33,8 @@ Page({
 
 
   addConfirm: function() {
+    
 
-
-   //'LHJ800210000006'
     wx.request({
       url: 'https://jinggai.lhj.mlink-tech.cn/device/addDevice.htm', 
       data: {

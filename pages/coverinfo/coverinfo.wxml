@@ -15,6 +15,12 @@
       </view>
 
       <view class="weui-cell">
+        <view class="weui-cell__bd">井盖编号</view>
+        <view class="weui-cell__ft">{{coverNo}}</view>
+      </view>
+
+
+      <view class="weui-cell">
         <view class="weui-cell__bd">地址</view>
         <view class="weui-cell__ft">{{address}}</view>
       </view>
@@ -39,15 +45,6 @@
         <view class="weui-cell__ft">{{operPhone}}</view>
       </view>
 
-      <view class="weui-cell">
-        <view class="weui-cell__bd">温度</view>
-        <view class="weui-cell__ft">{{temperature}}</view>
-      </view>
-
-      <view class="weui-cell">
-        <view class="weui-cell__bd">重力角度</view>
-        <view class="weui-cell__ft">{{gravityAngle}}</view>
-      </view>
 
       <view class="weui-cell">
         <view class="weui-cell__bd">电量</view>
@@ -79,10 +76,6 @@
         <view class="weui-cell__ft">{{reportTime}}</view>
       </view>
 
-      <view class="weui-cell">
-        <view class="weui-cell__bd">水浸状态</view>
-        <view class="weui-cell__ft">{{waterStatus}}</view>
-      </view>
 
       <view class="weui-cell">
         <view class="weui-cell__bd">警报状态</view>
@@ -92,6 +85,20 @@
       <view class="weui-cell">
         <view class="weui-cell__bd">是否校准</view>
         <view class="weui-cell__ft">{{ifRecalibrate}}</view>
+      </view>
+
+      <view class="weui-cell">
+        <view class="weui-cell__bd">当前上报间隔</view>
+        <view class="weui-cell__ft">{{reportInterval}}</view>
+      </view>
+
+      <view class="weui-cell">
+        <view class="weui-cell__bd">上报间隔（天）</view>
+        <input class="weui-cell__ft" placeholder="输入设备上报间隔" bindinput='bindReportingInterval' />
+        <view class="weui-cell__ft">
+          <button class="weui-btn mini-btn" type="primary" size='mini' bindtap='configInterval'>设置</button>
+
+        </view>
       </view>
 
 
@@ -116,7 +123,5 @@
 
 
   </view>
-
-
 
 </view>

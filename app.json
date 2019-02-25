@@ -1,7 +1,6 @@
 {
   "pages": [
     "pages/mainlog/mainlog",
-    "pages/index/index",
     "pages/mappage/mappage",
     "pages/coverinfo/coverinfo",
     "pages/logInfo/logInfo",
@@ -13,5 +12,10 @@
     "navigationBarBackgroundColor": "#fff",
     "navigationBarTitleText": "NB-IoT智能井盖",
     "navigationBarTextStyle": "black"
-  }
+  },
+    "permission": {
+      "scope.userLocation": {
+        "desc": "你的位置信息将用于小程序位置接口的效果展示"
+      }
+    }
 }

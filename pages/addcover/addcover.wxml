@@ -53,7 +53,7 @@
           <view class="weui-label">井盖号码</view>
         </view>
         <view class="weui-cell__bd">
-          <input class="weui-input" placeholder="可输入井盖号码（选填）" bindinput='bindCoverNo'/>
+          <input class="weui-input" placeholder="可输入井盖号码" bindinput='bindCoverNo'/>
         </view>
       </view>
 

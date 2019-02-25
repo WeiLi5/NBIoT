@@ -23,20 +23,7 @@ Page({
         },
         clickable: true
     }
-    /*
-    , {
-      id: 'showmarker',
-      iconPath: '../../images/icon_show_marker.png',
-      position: {
-        left: 90,
-        top: 20,
-        width: 50,
-        height: 50
-      },
-      clickable: true
-    }
 
-    */
     ],
     circles: []
 
@@ -88,7 +75,7 @@ Page({
 
 
         //从服务器取到设备信息
-        //var datas = app.globalData.coverList
+
         wx.getStorage({
           key: 'sessionId',
           success: function (res) {
@@ -106,6 +93,7 @@ Page({
                 console.log("获取设备列表成功")
                 var datas = res.data.deviceList;
                 var warn = '';
+                console.log(datas)
        
                 //初始化清空全局marker list
                 //主要为了设备全部删光的情况
@@ -124,7 +112,7 @@ Page({
                       width: 50,
                       height: 50,
                       iconPath: "../../images/map-marker-icon-normal.png",
-                      title: datas[i].sn
+                      title: datas[i].number
                     }
                   } 
                   if (datas[i].status == 2) {
@@ -135,7 +123,7 @@ Page({
                       width: 50,
                       height: 50,
                       iconPath: "../../images/map-marker-icon-water.png",
-                      title: datas[i].sn
+                      title: datas[i].number
                     }
                   } 
                   if (datas[i].status == 3) {
@@ -146,7 +134,7 @@ Page({
                       width: 50,
                       height: 50,
                       iconPath: "../../images/map-marker-icon-warn.png",
-                      title: datas[i].sn
+                      title: datas[i].number
                     }
                   }
                   if (datas[i].status == 4) {
@@ -157,7 +145,7 @@ Page({
                       width: 50,
                       height: 50,
                       iconPath: "../../images/map-marker-icon-nodata.png",
-                      title: datas[i].sn
+                      title: datas[i].number
                     }
                   }  
                   if (datas[i].status == 5) {
@@ -168,7 +156,7 @@ Page({
                       width: 50,
                       height: 50,
                       iconPath: "../../images/map-marker-icon-doublewarn.png",
-                      title: datas[i].sn
+                      title: datas[i].number
                     }
                   }
 
@@ -184,12 +172,23 @@ Page({
           }
         })
 
+        if (app.globalData.longitude != ''){
+          _this.setData({
+            latitude: app.globalData.latitude,
+            longitude: app.globalData.longitude,
+          })
+        }
+        else{
 
-        _this.setData({
-          latitude: res.latitude,
-          longitude: res.longitude,
-          
-        })
+          _this.setData({
+            latitude: res.latitude,
+            longitude: res.longitude,
+
+          })
+
+        }
+
+
       }
 
     })
